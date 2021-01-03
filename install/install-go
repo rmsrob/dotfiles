@@ -1,0 +1,28 @@
+#!/bin/sh
+
+sudo add-apt-repository ppa:longsleep/golang-backports
+sudo apt update
+sudo apt install golang-go
+
+GO_VERSION=1.14.6
+
+curl -O https://dl.google.com/go/go1.14.6.linux-amd64.tar.gz
+sha256sum go1.14.6.linux-amd64.tar.gz
+
+tar xvf go1.14.6.linux-amd64.tar.gz
+sudo chown -R root:root ./go
+sudo mv go /usr/local
+
+
+# https://golang.org/dl/go1.15.linux-amd64.tar.gz
+
+loc=$(curl -o /dev/null -sIw "%{redirect_url}" 'https://golang.org/dl/')
+vers=${loc##*/}
+deb=go.$vers.linux-amd64.tar.gz
+
+uri=${loc%/tag*}/download/$vers/$deb
+echo "Downloading $uri"
+curl -sL "$uri" -o "/tmp/$deb"
+
+echo "Installing /tmp/$deb"
+sudo dpkg -i "/tmp/$deb"

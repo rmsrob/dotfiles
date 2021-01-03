@@ -1,0 +1,70 @@
+{
+  "workbench.colorTheme": "Material Theme Darker",
+  "editor.fontSize": 20,
+  "git.enableSmartCommit": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.fontFamily": "'Incosolata-g for powerline', Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+  "files.autoSave": "onFocusChange",
+  // These are all my auto-save configs
+  "editor.formatOnSave": true,
+  // turn it off for JS and JSX, we will do this via eslint
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    // "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "[javascriptreact]": {
+    // "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": false
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "git.confirmSync": false,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "terminal.integrated.fontSize": 18,
+  "terminal.integrated.fontFamily": "Inconsolata Nerd Font Mono",
+  "window.zoomLevel": 0,
+  // Optional BUT IMPORTANT: If you have the prettier extension enabled for other languages like CSS and HTML, turn it off for JS since we are doing it through Eslint already
+  "prettier.disableLanguages": ["javascript", "javascriptreact"],
+  // Colors
+  "colorize.colorized_variables": ["LESS", "SASS", "CSS"],
+  "colorize.languages": [
+    "css",
+    "sass",
+    "scss",
+    "less",
+    "postcss",
+    "sss",
+    "stylus",
+    "xml",
+    "svg",
+    "json",
+    "yaml",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "php",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "python.jediEnabled": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "files.associations": {},
+  "sync.forceUpload": true,
+  "sync.gist": "4dde641ce1b25880ed22394db8df9fc9",
+  "sync.quietSync": true,
+  "workbench.startupEditor": "none"
+}

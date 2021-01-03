@@ -1,0 +1,13 @@
+#!/bin/sh
+
+loc=$(curl -o /dev/null -sIw "%{redirect_url}" 'https://github.com/sindresorhus/caprine/releases/latest')
+vers=${loc##*/}
+versdl="$(echo $vers | tail -c +2 | head -c -1)"
+deb="caprine_${versdl}_amd64.deb"
+
+uri=${loc%/tag*}/download/$vers/$deb
+echo "Downloading $uri"
+curl -sL "$uri" -o "/tmp/$deb"
+
+echo "Installing /tmp/$deb"
+sudo dpkg -i "/tmp/$deb"

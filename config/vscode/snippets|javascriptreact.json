@@ -1,0 +1,31 @@
+{
+	"console log": {
+		"prefix": "cll",
+		"body": "console.log('TEST >>> ', $1);",
+		"description": "console log",
+	},
+	"styled component": {
+		"prefix": "stt",
+		"body": [
+			"const ${1:StyledCompName} = styled.${2:StyedAttr}`",
+			"  $3",
+			"`;"
+		],
+		"description": "styled component"
+	},
+	"Functional Stateless Component": {
+		"prefix": "fss",
+		"body": [
+			"import React from 'react';",
+			"",
+			"export const $1 = ($2) => {",
+			"\tconsole.log('FSC - $1')",
+			"",
+			"\treturn (",
+			"\t\t$3",
+			"\t);",
+			"}",
+		],
+		"description": "Stateless Component"
+	}
+}

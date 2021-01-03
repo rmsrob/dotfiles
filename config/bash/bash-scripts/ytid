@@ -1,0 +1,12 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "usage: ytid <url>"
+fi
+
+ytbID=`echo "$1" | sed -e "s|.*channel/||" -e "s|/.*$||"`
+ytbURL="https://www.youtube.com/channel/$ytbID"
+ytbNAME=`curl $ytbURL -so - | perl -l -0777 -ne 'print $1 if /<meta property="og:title" content="\s*(.*?)\s*"/si'`
+
+echo "- $ytbNAME: $ytbURL"
+

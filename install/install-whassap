@@ -1,0 +1,13 @@
+#!/bin/sh
+
+loc=$(curl -o /dev/null -sIw "%{redirect_url}" 'https://github.com/cstayyab/WALC/releases/latest')
+vers=${loc##*/}
+appImg=walc.AppImage
+
+uri=${loc%/tag*}/download/$vers/$appImg
+echo "Downloading $uri"
+curl -sL "$uri" -o "/tmp/$appImg"
+
+echo "Installing /tmp/$appImmg"
+sudo mv -v "/tmp/$appImmg $HOME/.local/bin/$appImg" 
+chmod -u+x $HOME/.local/bin/$appImg

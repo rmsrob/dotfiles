@@ -1,0 +1,13 @@
+#!/bin/bash
+export MYCPULOAD=`ps -A -o pcpu | tail -n+2 | paste -sd+ | bc`
+export MYCPUTEMP=`sensors | awk '/^Core/ {print $3}'`
+export MYCPUFAN=`sensors | awk '/^fan1/ {print $2" "$3}'`
+
+export MYCPUINFO1=`perl -lne 'print "$1" if /^model\sname\s:\s(.*$)/' /proc/cpuinfo | head -n 1`
+export MYCPUINFO2=`head -1 /sys/devices/cpu/caps/pmu_name`
+
+echo "${MYCPUINFO1} - ${MYCPUINFO2}"
+echo ""
+echo "${MYCPUTEMP}"
+echo "${MYCPULOAD} % - ${MYCPUFAN}" && ps axch -o cmd:15,%cpu --sort=-%cpu | head
+

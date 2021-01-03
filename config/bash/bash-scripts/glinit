@@ -1,0 +1,15 @@
+#!/bin/sh
+# /home/rems/.local/bin/bash-scripts/glinit: line 3: continue: only meaningful in a `for', `while', or `until' loop
+# command -v git >/dev/null && continue || { echo "git command not found."; exit 1; }
+REPOSITORY="${PWD##*/}"
+ROOTDIR=`echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//'`
+
+mdr
+echo "creating: LISENCE file"
+gnu2 > LISENCE
+git init && git add .
+
+command -v lsd >/dev/null && lsd -l || { ls -l; }
+echo "${grey}Push to create repo: ${greenyellow}git push --set-upstream git@gitlab.com:$ROOTDIR/$REPOSITORY.git master${reset}"
+echo "${grey}Add remote only: ${greenyellow}git remote add origin git@gitlab.com:$ROOTDIR/$REPOSITORY.git${reset}"
+

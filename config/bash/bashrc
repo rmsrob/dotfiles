@@ -1,0 +1,11 @@
+export TERM="xterm-256color"
+for file in ~/.bashrc.d/*.bashrc; do
+	. $file
+done
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

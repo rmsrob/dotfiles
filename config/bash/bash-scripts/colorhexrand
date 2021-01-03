@@ -1,0 +1,4 @@
+#!/bin/sh
+
+hexdump -n 3 -v -e '"#" 3/1 "%02X" "\n"' /dev/urandom
+

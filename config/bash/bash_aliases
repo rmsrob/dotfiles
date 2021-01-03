@@ -1,0 +1,112 @@
+# shift UPARR \e[1;2A
+# shift DWARR \e[1;2B
+
+# bindkey -v
+# bindkey '^P' up-history
+# bindkey '^N' down-history
+# bindkey '^?' backward-delete-char
+# bindkey '^h' backward-delete-char
+# bindkey '^w' backward-kill-word
+# bindkey '^r' history-incremental-search-backward
+
+# Cycle through history based on characters already typed on the line ???
+# bind "\C-p":history-search-backward
+# bind "\C-m":history-search-forward
+bind '"\e[1;5A":history-search-backward'
+bind '"\e[1;5B":history-search-forward'
+bind '"\e[1;5C":forward-word'
+bind '"\e[1;5D":backward-word'
+
+# If there are multiple matches for completion, Tab should cycle through them
+#[[ $- = *i* ]] && bind TAB:menu-complete
+bind TAB:menu-complete
+# bind "\e[1;2A":menu-complete
+# bind "\e[1;2B":menu-complete-backward
+
+# Display a list of the matching files
+bind "set show-all-if-ambiguous on"
+
+# Perform partial completion on the first Tab press,
+# only start cycling full results on the second Tab press
+bind "set menu-complete-display-prefix on"
+bind "set show-all-if-unmodified on"
+bind "set skip-completed-text off"
+
+# Git
+alias g="git"
+alias gam="git add .; git commit -m "
+alias gpom="git push origin master"
+
+# Find
+alias fd=fdfind
+
+# Ls
+alias ls='lsd'
+alias ll='ls -alF'
+alias la='ls -lA'
+alias l='ls -l'
+alias lt='lsd --tree'
+
+## Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+alias n='nnn -e'
+alias N='sudo -E nnn -dH'
+
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias mkd='mkdir -pv'
+alias destroy='shred -uv'
+alias lessf="less +F"
+alias hl="highlight --out-format=ansi"
+
+# use coloration in grep search
+alias grep="grep --color=always -r"
+alias fgrep="fgrep --color=always -r"
+alias egrep="egrep --color=always -r"
+
+# ripgrep w/h case sensitive
+alias rgg="rg -i -M=50"
+
+alias '?'=duck
+alias '??'=google
+
+## CDPATH
+# alias repo='cd $HOME/Repos/ && ls -alF'
+# alias rgithub='cd $HOME/Repos/github.com && ls -alF'
+# alias rgitlab='cd $HOME/Repos/gitlab.com && ls -alF'
+# alias dotfile='cd $HOME/Repos/gitlab.com/rmsrob/dotfiles && ls -alF'
+# alias bookmark='cd $HOME/Repos/gitlab.com/rmsrob/bookmarks && ls -alF'
+# alias cprod='cd $HOME/Code/Prod/ && ls -alF'
+# alias ctest='cd $HOME/Code/Test/ && ls -alF'
+# alias cdocker='cd $HOME/Code/Docker/ && ls -alF'
+
+## TOUCHPAD
+alias tpon='gsettings set org.gnome.desktop.peripherals.touchpad send-events enabled'
+alias tpoff='gsettings set org.gnome.desktop.peripherals.touchpad send-events disabled'
+
+## NETWORK ##
+alias wget='wget -c'
+alias ping='ping -c 4'
+
+## set some other defaults ##
+alias df='df -H'
+alias du='du -ch'
+alias nano='nano -c'
+alias vi='vim'
+alias lg='lazygit'
+
+## top is atop ##
+alias top='htop'
+alias ktmux='tmux kill-server'
+alias ytop='ytop -ps'
+
+## docker
+alias dc="docker-compose"
+
+## neovim nightly
+alias nvim='$HOME/.nvim-linux64/bin/nvim'
+

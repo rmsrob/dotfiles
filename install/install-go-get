@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if ! which go; then
+  echo "Doesn't look like Go is installed."
+  echo "Be sure to install it safely."
+  exit 1
+fi
+
+go get -u github.com/ffuf/ffuf
+go get -u github.com/raviqqe/muffet
+go get -u github.com/hasura/graphql-engine/cli/cmd/hasura
+go get github.com/ericchiang/pup
+
+#To include the Cpick package, include the line import "gitlab.com/ethanbakerdev/cpick".
+#To make a command based off of the package, run go install in the cmd/cpick directory. Command usage can be found in the docs.
+go get -u gitlab.com/ethanbakerdev/cpick

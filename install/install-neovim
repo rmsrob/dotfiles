@@ -1,0 +1,10 @@
+#!/bin/sh
+
+targz="nvim-linux64.tar.gz"
+temp="/tmp/$targz"
+dest="$HOME/"
+curl -L https://github.com/neovim/neovim/releases/download/nightly/$tarz  -o "$temp"
+tar -xvf "$temp" -C "$dest" --one-top-level=".nvim-linux64" --strip-components=1
+
+echo "Nvim nightly installed"
+# alias nvim='$HOME.nvim-linus64/bin/nvim'

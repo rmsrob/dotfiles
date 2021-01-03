@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd $HOME/Repos/gitlab.com/rmsrob/vim-journal
+mdf "vim on me"
+VIMTODAY=`ls -t | head -n1`
+$EDITOR $VIMTODAY
