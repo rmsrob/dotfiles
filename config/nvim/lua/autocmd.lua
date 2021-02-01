@@ -2,7 +2,7 @@ local cmd = vim.cmd
 local api = vim.api
 
 
- -- auto source when writing to init.vm alternatively you can run :source $MYVIMRC
+-- auto source when writing to init.vm alternatively you can run :source $MYVIMRC
 --cmd("au BufWritePost $MYVIMRC source %")
 --cmd("autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o")
 
