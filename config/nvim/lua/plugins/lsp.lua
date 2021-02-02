@@ -170,6 +170,14 @@ lspconfig.jsonls.setup {
     on_attach = on_attach
   })
 
+  -- graphql
+  lspconfig.graphql.setup{
+    root_dir = lspconfig.util.root_pattern('.git', '.graphqlrc'),
+    cmd = { "graphql-lsp", "server", "-m", "stream" },
+    filetypes = { "graphql" },
+    on_attach = on_attach
+  }
+
 -- Lua (sumneko) setup
 local function get_lua_runtime()
     local result = {}

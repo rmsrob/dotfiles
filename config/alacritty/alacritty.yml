@@ -4,8 +4,8 @@ env:
 
 window:
   dimensions:
-    columns: 130
-    lines: 25
+    columns: 126
+    lines: 42
 
   position:
     #x: 0
@@ -120,7 +120,7 @@ bell:
   duration: 0
   color: "#ffffff"
 
-background_opacity: .88
+background_opacity: .80
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
