@@ -1,2 +1,2 @@
 #!/bin/sh
-lynx "searx.pofilo.fr/?q=$*"
+lynx "https://searx.pofilo.fr/search?q=$*&amp;categories=general&amp;language=en-US&amp;format=rss"

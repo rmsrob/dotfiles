@@ -1,6 +1,1 @@
-#!/bin/sh
-
-#######################################
-# Better use this as CTRL+l
-
-clear () { echo -n $clear; }
+clear
