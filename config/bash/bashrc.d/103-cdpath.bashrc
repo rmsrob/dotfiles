@@ -11,19 +11,22 @@
 GITUSER="rmsrob"
 
 export REPOS="$HOME/Repos/"
-export GITLAB="$HOME/Repos/gitlab.com"
-export RMSROB="$HOME/Repos/gitlab.com/$GITUSER"
-export DOTFILES="$HOME/Repos/gitlab.com$GITUSER/dotfiles"
 export GITHUB="$HOME/Repos/github.com"
-export GHRR="$HOME/Repos/github.com/$GITUSER"
+export RRHUB="$HOME/Repos/github.com/$GITUSER"
+export DOTFILES="$HOME/Repos/github.com/$GITUSER/dotfiles"
+export CONFFILES="$HOME/Repos/github.com/$GITUSER/dotfiles/config"
+export GITLAB="$HOME/Repos/gitlab.com"
+export RRLAB="$HOME/Repos/gitlab.com/$GITUSER"
 
 # Be sure not to remove ./ or stuff gets weird
 export CDPATH=\
 ./:\
 $REPOS:\
-$GITLAB:\
-$RMSROB:\
 $GITHUB:\
+$RRHUB:\
+$CONFFILES:\
+$GITLAB:\
+$RRLAB:\
 $HOME
 
 
