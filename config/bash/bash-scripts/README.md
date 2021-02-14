@@ -1,6 +1,6 @@
 # Bash Scripts
 
-![WIP](https://img.shields.io/badge/status-wip-red) [li-badge]: https://img.shields.io/github/license/rmsrob/dotfile
+![WIP](https://img.shields.io/badge/status-wip-red)
 
 > Trying to be the more POSIX as possible
 
