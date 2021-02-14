@@ -1,0 +1,4 @@
+#!/bin/bash
+while read line; do 
+  echo "* [$line](https://gitlab.com/rmsrob/dotfiles/-/blob/master/config/bash/bash-scripts/$line)"
+done

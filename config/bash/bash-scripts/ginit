@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# init  repo with basic files configurations
+
+REPOSITORY="${PWD##*/}"
+ROOTDIR=`echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//'`
+
+mdr
+echo "creating: LISENCE file"
+gnu2 > LISENCE
+git init && git add .
+
+
+# TODO if gitlab or if github
+# command -v lsd >/dev/null && lsd -l || { ls -l; }
+# echo "${grey}Push to create repo: ${greenyellow}git push --set-upstream git@gitlab.com:$ROOTDIR/$REPOSITORY.git master${reset}"
+# echo "${grey}Add remote only: ${greenyellow}git remote add origin git@gitlab.com:$ROOTDIR/$REPOSITORY.git${reset}"

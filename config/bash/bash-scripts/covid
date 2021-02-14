@@ -4,4 +4,3 @@
 # optional argument that is the region.
 
 curl https://corona-stats.online/$1
-

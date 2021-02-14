@@ -1,3 +1,2 @@
 #!/bin/sh
 uname -m && uname -a && lsb_release -a
-

@@ -1,5 +1,9 @@
 #!/bin/sh
 
+#######################################
+# Filter strange auth on an instance
+# from /var/log/auth.log
+
 if [ -z "$1" ]; then
   echo "usage: cheat <cli tool name>"
 fi
@@ -13,4 +17,3 @@ cheat() {
 }
 
 cheat $*
-

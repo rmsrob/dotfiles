@@ -1,0 +1,16 @@
+#!/bin/bash
+
+/usr/bin/screenkey \
+  --persist \
+  -t 4 \
+  -p fixed \
+  -g "420x90+1040+1010" \
+  --compr-cnt 1 \
+  -s large \
+  -f "UbuntuMono Nerd Font" \
+  --font-color "#fe8019" \
+  --opacity 0  &
+
+
+  #--font-color "#d65d0e" \
+#  -g "634x40+670+0" \
