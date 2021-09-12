@@ -8,7 +8,7 @@
 # it can be called by any executable in any language using some form of
 # the exec() system call (man exec).
 
-hostname -I | cut -c-11
+hostname -I | cut -c-13
 dig +short myip.opendns.com @resolver4.opendns.com
 #dig +short myip.opendns.com @resolver1.opendns.com -4
 # dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if ! havecmd jq ; then
+  telln '*Need to install `the Bash lib jq`*.'
+  exit 1
+fi
+
+URL="https://ethgasstation.info/api/ethgasAPI.json"
+GASRANGE=`curl -sL $URL | jq -r '[.fastest, .fastest*2, .fastest*3, .fastestWait]'`
+echo "$GASRANGE"
+echo ""
+echo "check https://www.ethgasstation.info/"
+echo "check https://www.ethstats.net/"

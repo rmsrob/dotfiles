@@ -1,0 +1,29 @@
+#!/bin/sh
+
+LOC=$(curl -o /dev/null -sIw "%{redirect_url}" 'https://github.com/RavenProject/Ravencoin/releases/latest')
+VERS=${LOC##*/}
+VERSRVN=${LOC##*/v}
+ZIP=raven-${VERSRVN}-x86_64-linux-gnu.zip
+TARGZ=raven-${VERSRVN}-x86_64-linux-gnu.tar.gz
+URI=${LOC%/tag*}/download/$VERS/$ZIP
+TMPDIR="/tmp/ravencoin-temp"
+DEST="$HOME/"
+
+curl -sL "$URI" -o "/tmp/$ZIP"
+echo "\033[0;32mDownloading $URI\033[0m"
+
+unzip -o "/tmp/$ZIP" "linux/*" -d "$TMPDIR"
+echo "\033[0;32mRavencoin is unzipped\033[0m"
+
+echo "SHA 256 SUM:"
+sha256sum $TMPDIR/linux/${TARGZ}
+cat $TMPDIR/linux/${TARGZ}.checksum.txt
+echo "\n\033[0;32mChecking from Raven tar.gz\033[0m"
+
+tar -xvf "$TMPDIR/linux/$TARGZ" -C "$DEST" --one-top-level=".ravencoin" --strip-components=1
+mkdir ${DEST}/.raven
+echo "maxconnections=1000" >> ~/.raven/raven.conf
+echo "ravencoin $VERS" >> ~/.ravencoin/version.log
+echo "\033[0;32mRaven ${VERS} is installed inside ${DEST}/.ravencoin\033[0m"
+echo "\033[0;32mRPlease add to your PATH ${DEST}/.ravencoin/bin\033[0m"
+echo "Then start raven with: ravend -daemon"

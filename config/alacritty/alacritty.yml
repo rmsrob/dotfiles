@@ -148,11 +148,11 @@ mouse:
   triple_click: { threshold: 300 }
   hide_when_typing: false
 
-  url:
-    launcher:
-      program: xdg-open
-      args: []
-    modifiers: None
+#  url:
+#    launcher:
+#      program: xdg-open
+#      args: []
+#    modifiers: None
 
 # Mouse bindings
 #

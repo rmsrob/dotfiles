@@ -10,6 +10,6 @@
 
 ## Maintainers
 
-- [user][me]
+- [rmsrob][me]
 
 [me]: https://github.com/rmsrob
