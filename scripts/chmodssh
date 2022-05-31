@@ -1,0 +1,7 @@
+#!/bin/sh
+
+sudo find $HOME/.ssh/  -name * -exec chmod 600 {}
+sudo find $HOME/.ssh/  -name *.pub -exec chmod 644 {}
+sudo chmod 644 known_hosts
+
+echo "ssh-add ~/.ssh/your-key:name"

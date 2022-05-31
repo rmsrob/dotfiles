@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# https://keepassxc.org/download/
+
+sudo add-apt-repository ppa:phoerious/keepassxc
+sudo apt-get update
+sudo apt install keepassxc
+
+# https://github.com/brave/brave-browser/issues/1835
+if ! havecmd brave-browser-beta ; then
+  mkdir -pv ~/.config/BraveSoftjware/Brave-Browser-Beta/NativeMessagingHosts
+  ln -sv  ~/.config/BraveSoftware/Brave-Browser/NativeMessagingHosts/org.keepassxc.keepassxc_browser.json ~/.config/BraveSoftware/Brave-Browser-Beta/NativeMessagingHosts/org.keepassxc.keepassxc_browser.json
+  ln -sv  ~/.config/BraveSoftware/Brave-Browser/NativeMessagingHosts/org.gnome.shell.extensions.gsconnect.json ~/.config/BraveSoftware/Brave-Browser-Beta/NativeMessagingHosts/org.gnome.shell.extensions.gsconnect.json
+  exit 1
+fi

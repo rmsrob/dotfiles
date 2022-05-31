@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#######################################
+# copie filename to a filename.bak
+
+cp -iv $1{,.bak}

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Calls the compact ncal variation with Mondays first and including the
+# week count during the year. I prefer keeping track of blogs and such by
+# the week of the year and not more complicated months and dates. (No one
+# ever plugs in a specific month and day into a long blog URL. They just
+# want it to be short).
+
+cal () {
+  declare exe=$(which ncal)
+  if [[ -z "$exe" ]]; then
+    cal $* 
+    return $?
+  fi
+  $exe -M -w $*
+}
+
+echo $cal

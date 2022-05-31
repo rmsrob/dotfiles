@@ -1,0 +1,24 @@
+#!/bin/bash
+
+dday=`date +"%Y-%m-%d"`
+fn="$*"
+cfn=${fn// /-}
+thisfile="${dday}_${cfn}.md"
+
+echo "creating: $thisfile"
+touch "$thisfile"
+
+cat > $thisfile << EOF
+---
+title: "$*"
+author: rsmrob (gitlab.com/rmsrob)
+date: `date +"%FT%T%z"`
+tags: []
+template: {}
+---
+
+# $*
+
+
+EOF
+

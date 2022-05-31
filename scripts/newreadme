@@ -1,0 +1,45 @@
+#!/bin/bash
+
+thisfile="README.md"
+
+echo "creating: $thisfile"
+touch "$thisfile"
+
+cat > $thisfile << 'EOM'
+![name](url_img)
+
+# TITLE ![GitHub][li-badge] ![tile_jobs][action_name] [![code_style: prettier][li-style]]
+
+![WIP](https://img.shields.io/badge/status-wip-red)
+[li-badge]: https://img.shields.io/github/license/user/project
+
+
+> description
+
+## Highlights
+
+- features
+
+## Prerequisite
+
+Work best or must have:
+
+- this
+
+## Install
+
+```sh
+```
+
+## Usage
+
+> how?
+
+## Maintainers
+
+- [user][me]
+
+[me]: https://github.com/user
+[me]: https://gitlab.com/user
+EOM
+

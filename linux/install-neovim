@@ -1,0 +1,14 @@
+#!/bin/sh
+
+loc=$(curl -o /dev/null -sIw "%{redirect_url}" 'https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz')
+targz=nvim-linux64.tar.gz
+dest="$HOME/"
+
+echo "Downloading Neovim"
+curl -sL "$loc" -o "/tmp/$targz"
+echo "Untar Neovim to $dest ..."
+tar -xvf "/tmp/$targz" -C "$dest" --one-top-level=".nvim-linux64" --strip-components=1
+echo "Nvim nightly installed"
+
+
+# alias nvim='$HOME.nvim-linus64/bin/nvim'

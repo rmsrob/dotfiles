@@ -1,0 +1,23 @@
+#!/bin/sh
+
+loc=$(curl -o /dev/null -sIw "%{redirect_url}" 'https://github.com/nvm-sh/nvm/releases/latest')
+vers=${loc##*/}
+zip=$vers.zip
+
+uri=${loc%releases/tag*}archive/$zip
+echo "Downloading $uri"
+curl -sL "$uri" -o "/tmp/$zip"
+
+echo "Installing /tmp/$zip"
+unzip -o -q "/tmp/$zip" -d "/tmp"
+nn="$(basename "$zip" | sed 's/\(.*\)\..*/\1/')"
+name="$(echo $nn | tail -c +2 | head -c -1)"
+chmod +x /tmp/nvm-$name/install.sh
+bash /tmp/nvm-$name/install.sh
+
+echo "test nvm..."
+command -v nvm
+
+nvm install --lts --reinstall-packages-from=current
+nvm alias default lts
+nvm run system --version

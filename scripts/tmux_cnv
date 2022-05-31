@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#cd $HOME/Repos/rrobrms/concave
+ktmux
+cd $HOME/Repos/rrobrms/concave
+tmux new-session -s Concave -n concave -d
+
+tmux send-keys -t Concave:concave "ll" Enter
+tmux select-window -t Concave:concave
+tmux split-window -h
+tmux send-keys -t Concave:concave "n" Enter
+
+tmux -u attach-session -d

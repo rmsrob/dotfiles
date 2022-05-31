@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cd $HOME/Repos/x/xx/vim-journal
+newpage "vim on me"
+VIMTODAY=`ls -t | head -n1`
+$EDITOR $VIMTODAY
