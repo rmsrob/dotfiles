@@ -43,7 +43,7 @@ for request in "$@"; do
     rolldie die "$sides"
 	if [[ $droll == "d20" && $die == "20" ]]; then
 	  echo "     ${diceicon[$droll]} dice roll = NATURAL $die"
-    dragonrider
+    art_dragonrider
 	else
 	  echo "     ${diceicon[$droll]} dice roll = $die"
 	fi
