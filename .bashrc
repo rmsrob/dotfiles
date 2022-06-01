@@ -255,7 +255,7 @@ export orange="`EXT_COLOR 208`"
 export lime="`EXT_COLOR 154`"
 export purple="`EXT_COLOR 114`"
 export no_change="`EXT_COLOR 48`"
-export some_change="`EXT_COLOR 164`"
+export some_change="`EXT_COLOR 227`"
 
 __ps1() {
   USER="$blackish\u$no_color"
