@@ -4,7 +4,7 @@
 
 `WARNING I'M DUMB WARNING`
 
-> Tips: last edite `20220531152558`
+> Tips: 
 
 ```sh
 rm ~/.bashrc
