@@ -1,13 +1,12 @@
 #!/bin/sh
 
-if ! havecmd jq ; then
-  telln '*Need to install `the Bash lib jq`*.'
+if ! havecmd pup ; then
+  telln '*Need to install `the Go lib pup`*.'
   exit 1
 fi
 
-URL="https://ethgasstation.info/api/ethgasAPI.json"
-GASRANGE=`curl -sL $URL | jq -r '[.fastest, .fastest*2, .fastest*3, .fastestWait]'`
-echo "$GASRANGE"
-echo ""
-echo "check https://www.ethgasstation.info/"
-echo "check https://www.ethstats.net/"
+ETH=`curl -sL etherscan.io | pup 'a[title="View Historical Ether Price"] text{}'`
+GAS=`curl -sL etherscan.io | pup 'div[title="GasTracker Estimate for Average Gas"] text{}'`
+echo $ETH
+echo $GAS
+echo https://www.ethstats.net

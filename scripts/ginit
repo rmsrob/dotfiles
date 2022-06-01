@@ -5,11 +5,14 @@
 REPOSITORY="${PWD##*/}"
 ROOTDIR=`echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//'`
 
-mdr
+newreadme
+echo "creating: README file"
+lcgnu2 > LISENCE
 echo "creating: LISENCE file"
-gnu2 > LISENCE
+newgitignore
+echo "creating: gitignore file"
 git init && git add .
-
+echo "creating: git versioning"
 
 # TODO if gitlab or if github
 # command -v lsd >/dev/null && lsd -l || { ls -l; }

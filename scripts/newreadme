@@ -1,30 +1,27 @@
 #!/bin/bash
 
 thisfile="README.md"
+REPOSITORY="${PWD##*/}"
+ROOTDIR=`echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//'`
 
 echo "creating: $thisfile"
 touch "$thisfile"
 
-cat > $thisfile << 'EOM'
-![name](url_img)
-
-# TITLE ![GitHub][li-badge] ![tile_jobs][action_name] [![code_style: prettier][li-style]]
-
+cat > $thisfile << EOF
 ![WIP](https://img.shields.io/badge/status-wip-red)
-[li-badge]: https://img.shields.io/github/license/user/project
+![GitHub][li-badge] ![tile_jobs][action_name] [![code_style: prettier][li-style]]
+[li-badge]: https://img.shields.io/github/license/$ROOTDIR/$REPOSITORY
+[![Latest release](https://img.shields.io/github/v/release/$ROOTDIR/$REPOSITORY)](https://github.com/$ROOTDIR/$REPOSITORY/releases/latest)
 
+# TITLE 
 
 > description
 
-## Highlights
-
-- features
-
 ## Prerequisite
+Required:
 
-Work best or must have:
-
-- this
+- Node v14
+- Yarn
 
 ## Install
 
@@ -33,13 +30,13 @@ Work best or must have:
 
 ## Usage
 
-> how?
+```sh
+```
 
 ## Maintainers
 
-- [user][me]
+- [$USER][me]
 
-[me]: https://github.com/user
-[me]: https://gitlab.com/user
-EOM
+[me]: https://github.com/$USER
 
+EOF

@@ -5,4 +5,4 @@ if ! which npm; then
   echo "Be sure to install them safely with install-node."
   exit 1
 fi
-npm install -g vercel serverless browser-sync json2graphql csv2geojson osmtogeojson @mapbox/togeojson @mapbox/geojson-merge emoji-finder emoj
+npm install -g vercel serverless json2graphql emoji-finder emoj diagnostic-languageserver eslint_d ethers-cli prettier typescript typescript-language-server yarn

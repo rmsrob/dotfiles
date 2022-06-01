@@ -11,7 +11,7 @@ touch "$thisfile"
 cat > $thisfile << EOF
 ---
 title: "$*"
-author: rsmrob (gitlab.com/rmsrob)
+author: $USER (github.com/$USER)
 date: `date +"%FT%T%z"`
 tags: []
 template: {}
@@ -19,6 +19,4 @@ template: {}
 
 # $*
 
-
 EOF
-

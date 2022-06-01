@@ -7,4 +7,4 @@ fi
 
 WHEN=`curl -sL $1 | pup 'meta[property="article:published_time"] attr{content}'`
 date -d $WHEN +"%A %d %B %Y @ %R"
-# curl -sL $1 | pup 'title text{}'
+
