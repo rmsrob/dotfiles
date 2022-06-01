@@ -254,6 +254,8 @@ export blackish="`EXT_COLOR 238`"
 export orange="`EXT_COLOR 208`"
 export lime="`EXT_COLOR 154`"
 export purple="`EXT_COLOR 114`"
+export no_change="`EXT_COLOR 48`"
+export some_change="`EXT_COLOR 164`"
 
 __ps1() {
   USER="$blackish\u$no_color"
@@ -279,7 +281,7 @@ __ps1() {
     # Git is installed
     if [ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
       # Inside of a git repository check if need commit or not
-      [ -z "`git status --porcelain`" ] && GITSTATUS="`EXT_COLOR 48` $no_color || GITSTATUS="`EXT_COLOR 164` $no_color"
+      [ -z "`git status --porcelain`" ] && GITSTATUS="$no_change $no_color" || GITSTATUS="$some_change $no_color"
     fi
   fi
 
