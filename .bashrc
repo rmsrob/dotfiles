@@ -24,7 +24,7 @@ export PLATFORM OS
 
 _have()      { type "$1" &>/dev/null; }
 _source_if() { [[ -r "$1" ]] && source "$1"; }
-_dir_exist() if [[ ! -d "$1" ]] then echo Hey $USER should you create "$1" fi
+# _dir_exist() if [[ ! -d "$1" ]] then echo Hey $USER should you create "$1" fi
 
 # ----------------------- environment variables ----------------------
 # (also see envx)
@@ -36,15 +36,15 @@ export ANON="${ANON:-${USER:0:1}}$USER"
 export GITUSER="$USER"
 export GITANON="$ANON"
 export REPOS="$HOME/Repos"
-_dir_exist $REPOS
+# _dir_exist $REPOS
 export GHREPOS="$REPOS/github.com/$GITUSER"
-_dir_exist $GHREPOS
+# _dir_exist $GHREPOS
 export GHREPOSEANON="$REPOS/github.com/$GITANON"
-_dir_exist $GHREPOSEANON
+# _dir_exist $GHREPOSEANON
 export DOTFILES="$GHREPOS/dotfiles"
-_dir_exist $DOTFILES
+# _dir_exist $DOTFILES
 export SCRIPTS="$DOTFILES/scripts"
-_dir_exist $SCRIPTS
+# _dir_exist $SCRIPTS
 export DESKTOP="$HOME/Desktop"
 export DOCUMENTS="$HOME/Documents"
 export DOWNLOADS="$HOME/Downloads"
@@ -54,7 +54,7 @@ export PICTURES="$HOME/Pictures"
 export MUSIC="$HOME/Music"
 export VIDEOS="$HOME/Videos"
 export VMS="$HOME/Vms"
-_dir_exist $VMS
+# _dir_exist $VMS
 export TERM=xterm-256color
 export HRULEWIDTH=73
 export EDITOR=vi
@@ -80,6 +80,20 @@ export TZ=Europe/Paris
 export LC_TME=fr_FR
 export CFLAGS="-Wall -Wextra -Werror -O0 -g -fsanitize=address -fno-omit-frame-pointer -finstrument-functions"
 
+color_prompt=yes
+alias fixstty='stty sane'
+
+export escape=$'\033'
+export reset=$'\033[0m'
+export bold=$'\033[1m'
+export underline=$'\033[4m'
+export blinkon=$'\033[5m'
+export blinkoff=$'\033[25m'
+export inverse=$'\033[7m'
+export inverseoff=$'\033[27m'
+export normal=$'\033[39m'
+export normalbg=$'\033[49m'
+
 export LESS_TERMCAP_mb="[35m" # magenta
 export LESS_TERMCAP_md="[33m" # yellow
 export LESS_TERMCAP_me="" # "0m"
@@ -87,6 +101,9 @@ export LESS_TERMCAP_se="" # "0m"
 export LESS_TERMCAP_so="[34m" # blue
 export LESS_TERMCAP_ue="" # "0m"
 export LESS_TERMCAP_us="[4m"  # underline
+
+export NNN_COLORS='#0a1b2c3d;1234'
+export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
 
 # export ANSIBLE_INVENTORY="$HOME/.config/ansible/ansible_hosts"
 export DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock
@@ -117,10 +134,37 @@ fi
 if _have dircolors; then
   if [[ -r "$HOME/.dircolors" ]]; then
     eval "$(dircolors -b "$HOME/.dircolors")"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
   else
     eval "$(dircolors -b)"
   fi
 fi
+
+export JQ_null="38;5;160"
+export JQ_false="38;5;214"
+export JQ_true="38;5;214"
+export JQ_num="38;5;200"
+export JQ_string="38;5;42"
+export JQ_arr="38;5;196"
+export JQ_obj="38;5;51"
+export JQ_field="38;5;244"
+
+export JQ_COLORS="$JQ_null:$JQ_false:$JQ_true:$JQ_num:$JQ_string:$JQ_arr:$JQ_obj:$JQ_field"
+
+EXT_COLOR () { echo -ne "\[\033[38;5;$1m\]"; }
+
+rgb () {
+  echo -n $'\033[38;2;'$1';'$2';'$3'm'
+} && export -f rgb
+
+rgbg () {
+  echo -n $'\033[48;2;'$1';'$2';'$3'm'
+} && export -f rgb
 
 # ------------------------------- path -------------------------------
 
@@ -204,38 +248,44 @@ shopt -s histappend
 # --------------------------- smart prompt ---------------------------
 #                 (keeping in bashrc for portability)
 
-PROMPT_LONG=20
-PROMPT_MAX=95
-PROMPT_AT=@
+export no_color="\[\033[0m\]"
+export pink="`EXT_COLOR 198`"
+export blackish="`EXT_COLOR 238`"
+export orange="`EXT_COLOR 208`"
+export lime="`EXT_COLOR 154`"
+export purple="`EXT_COLOR 114`"
 
 __ps1() {
-  local P='$' dir="${PWD##*/}" B countme short long double\
-    r='\[\e[31m\]' g='\[\e[30m\]' h='\[\e[34m\]' \
-    u='\[\e[33m\]' p='\[\e[34m\]' w='\[\e[35m\]' \
-    b='\[\e[36m\]' x='\[\e[0m\]'
+  USER="$blackish\u$no_color"
+  _AT="$orange@$no_color"
+  XHOST="0x$((0x$(sha1sum <<<$(hostname))0))"
+  HEXHOST="$blackish${XHOST::4}...${XHOST: 0-5}$no_color"
+  DIR="$cyan\w$no_color"
 
-  [[ $EUID == 0 ]] && P='#' && u=$r && p=$u # root
-  [[ $PWD = / ]] && dir=/
-  [[ $PWD = "$HOME" ]] && dir='~'
-
-  B=$(git branch --show-current 2>/dev/null)
-  [[ $dir = "$B" ]] && B=.
-  countme="$USER$PROMPT_AT$(hostname):$dir($B)\$ "
-
-  [[ $B = master || $B = main ]] && b="$r"
-  [[ -n "$B" ]] && B="$g($b$B$g)"
-
-  short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$p$P$x "
-  long="$g╔ $u\u$g$PROMPT_AT$h\h$g:$w$dir$B\n$g╚ $p$P$x "
-  double="$g╔ $u\u$g$PROMPT_AT$h\h$g:$w$dir\n$g║ $B\n$g╚ $p$P$x "
-
-  if (( ${#countme} > PROMPT_MAX )); then
-    PS1="$double"
-  elif (( ${#countme} > PROMPT_LONG )); then
-    PS1="$long"
+  if [ "$(whoami)" == "root" ] ; then
+    SYMBOL="$pink# $no_color";
   else
-    PS1="$short"
+    SYMBOL="$lime$ $no_color";
   fi
+
+  BRANCH=$(git branch --show-current 2>/dev/null)
+  [[ $dir = "$BRANCH" ]] && BRANCH=.
+
+  [[ $BRANCH = master || $BRANCH = main ]] && purple="$pink"
+  [[ -n "$BRANCH" ]] && BRANCH="$purple$BRANCH$no_color"
+
+  # Add git branch portion of the prompt, this adds ":branchname"
+  if ! git_loc="$(type -p "$git_command_name")" || [ -z "$git_loc" ]; then
+    # Git is installed
+    if [ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+      # Inside of a git repository check if need commit or not
+      [ -z "`git status --porcelain`" ] && GITSTATUS="`EXT_COLOR 48` $no_color || GITSTATUS="`EXT_COLOR 164` $no_color"
+    fi
+  fi
+
+  prompt="$USER$_AT$HEXHOST $DIR $GITSTATUS $BRANCH\n $SYMBOL ➜ "
+
+  PS1="$prompt"
 }
 
 PROMPT_COMMAND="__ps1"

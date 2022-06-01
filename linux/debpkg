@@ -15,6 +15,7 @@ sudo apt install tmux \
     pkg-config \
     unzip \
     vim \
+    net-tools \
     alacitty \
     lynx \
     nnn \
