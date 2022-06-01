@@ -252,6 +252,7 @@ export no_color="\[\033[0m\]"
 export pink="`EXT_COLOR 198`"
 export blackish="`EXT_COLOR 238`"
 export orange="`EXT_COLOR 208`"
+export cyan="`EXT_COLOR 51`"
 export lime="`EXT_COLOR 154`"
 export purple="`EXT_COLOR 114`"
 export no_change="`EXT_COLOR 48`"
@@ -273,19 +274,19 @@ __ps1() {
   BRANCH=$(git branch --show-current 2>/dev/null)
   [[ $dir = "$BRANCH" ]] && BRANCH=.
 
-  [[ $BRANCH = master || $BRANCH = main ]] && purple="$pink"
-  [[ -n "$BRANCH" ]] && BRANCH="$purple$BRANCH$no_color"
-
   # Add git branch portion of the prompt, this adds ":branchname"
   if ! git_loc="$(type -p "$git_command_name")" || [ -z "$git_loc" ]; then
     # Git is installed
     if [ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
       # Inside of a git repository check if need commit or not
-      [ -z "`git status --porcelain`" ] && GITSTATUS="$no_change $no_color" || GITSTATUS="$some_change $no_color"
+      GIT_BRANCH=$(git symbolic-ref --short HEAD)
+      [[ $GIT_BRANCH = master || $GIT_BRANCH = main ]] && purple="$pink"
+      [[ -n "$GIT_BRANCH" ]] && GIT_BRANCH="$purple$GIT_BRANCH$no_color"
+      [ -z "`git status --porcelain`" ] && BRANCH="$no_change $no_color $GIT_BRANCH" || BRANCH="$some_change $no_color $GIT_BRANCH"
     fi
   fi
 
-  prompt="$USER$_AT$HEXHOST $DIR $GITSTATUS $BRANCH\n $SYMBOL ➜ "
+  prompt="\n$USER$_AT$HEXHOST $DIR $BRANCH\n $SYMBOL ➜ "
 
   PS1="$prompt"
 }
