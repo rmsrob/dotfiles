@@ -251,39 +251,67 @@ shopt -s histappend
 export no_color="\[\033[0m\]"
 export pink="`EXT_COLOR 198`"
 export blackish="`EXT_COLOR 238`"
-export orange="`EXT_COLOR 208`"
+export greyish="`EXT_COLOR 245`"
 export cyan="`EXT_COLOR 51`"
-export lime="`EXT_COLOR 154`"
-export purple="`EXT_COLOR 114`"
-export no_change="`EXT_COLOR 48`"
-export some_change="`EXT_COLOR 227`"
+export lime="`EXT_COLOR 82`"
+export yellow="`EXT_COLOR 227`"
 
 __ps1() {
   USER="$blackish\u$no_color"
-  _AT="$orange@$no_color"
+  _AT="$greyish@$no_color"
   XHOST="0x$((0x$(sha1sum <<<$(hostname))0))"
   HEXHOST="$blackish${XHOST::4}...${XHOST: 0-5}$no_color"
   DIR="$cyan\w$no_color"
+
+  function is_git_repository {
+    git branch > /dev/null 2>&1
+  }
+
+  function set_git_branch {
+    git_status="$(git status 2> /dev/null)"
+
+    if [[ ${git_status} =~ "nothing to commit, working tree clean" ]]; then 
+      state="${lime}"
+    elif [[ ${git_status} =~ "Changes to be committed" ]]; then
+      state="${yellow}"
+    else
+      state="${pink}"
+    fi
+
+    remote_pattern="Your branch is (.*) of"
+    if [[ ${git_status} =~ ${remote_pattern} ]]; then
+      if [[ ${BASH_REMATCH[1]} == "ahead" ]]; then
+        remote=""
+      else
+        remote="↓"
+      fi
+    else
+      remote=""
+    fi
+
+    diverge_pattern="Your branch and (.*) have diverged"
+    if [[ ${git_status} =~ ${diverge_pattern} ]]; then
+      remote=""
+    fi
+
+    branch_pattern="^(# )?On branch ([^${IFS}]*)"
+    if [[ ${git_status} =~ ${branch_pattern} ]]; then
+      branch="${BASH_REMATCH[2]}"
+    fi
+
+    BRANCH="${state}(${branch}) ${remote}${no_color} "
+  }
+
+  if is_git_repository ; then
+      set_git_branch
+  else
+      BRANCH="$cyan.$no_color"
+  fi
 
   if [ "$(whoami)" == "root" ] ; then
     SYMBOL="$pink# $no_color";
   else
     SYMBOL="$lime$ $no_color";
-  fi
-
-  BRANCH=$(git branch --show-current 2>/dev/null)
-  [[ $dir = "$BRANCH" ]] && BRANCH=.
-
-  # Add git branch portion of the prompt, this adds ":branchname"
-  if ! git_loc="$(type -p "$git_command_name")" || [ -z "$git_loc" ]; then
-    # Git is installed
-    if [ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-      # Inside of a git repository check if need commit or not
-      GIT_BRANCH=$(git symbolic-ref --short HEAD)
-      [[ $GIT_BRANCH = master || $GIT_BRANCH = main ]] && purple="$pink"
-      [[ -n "$GIT_BRANCH" ]] && GIT_BRANCH="$purple$GIT_BRANCH$no_color"
-      [ -z "`git status --porcelain`" ] && BRANCH="$no_change $no_color $GIT_BRANCH" || BRANCH="$some_change $no_color $GIT_BRANCH"
-    fi
   fi
 
   prompt="\n$USER$_AT$HEXHOST $DIR $BRANCH\n $SYMBOL ➜ "

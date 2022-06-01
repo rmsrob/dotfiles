@@ -1,0 +1,20 @@
+---
+# TODO CHECK YOUR HOST FILE FOR VPS IP
+- name: SERVER | install
+  hosts: ec2
+  become: true
+
+  # TODO CHECK YOUR CONST.YML
+  tasks:
+    - include_vars:
+        file: const.yml
+
+    # * SETUP THE VPS MACHINE *#
+    - include_role:
+        name: role01_infra_distrib
+
+    - include_role:
+        name: role02_aptget
+
+    - include_role:
+        name: role03_users

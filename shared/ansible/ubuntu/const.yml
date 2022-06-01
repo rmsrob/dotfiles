@@ -1,0 +1,20 @@
+---
+#####################################
+#               ANSIBLE            #
+#####################################
+
+# ? IP
+srv_ip: "42.42.424.424" # VPS IP
+cnx_ip: "13.13.337.337" # CNX IP
+
+# ? USERS
+user_sudo: ubuntu
+
+# ? USERS DIR HOME
+user_sudo_hdir: "/home/{{ user_sudo }}"
+
+# ? USERS GH REPOS
+rgh: "Repos/github.com"
+
+# ? USERS DOTFILE
+dotfiles: "dotfiles"

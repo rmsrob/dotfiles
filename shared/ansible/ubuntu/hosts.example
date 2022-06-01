@@ -1,0 +1,2 @@
+[ec2]
+ec2-xxxxxxxxxxx.amazonaws.com ansible_user=ubuntu

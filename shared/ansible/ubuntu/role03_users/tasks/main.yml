@@ -1,0 +1,31 @@
+---
+- name: "USER | {{ dotfiles }}"
+  git:
+    repo: https://github.com/rrobrms/dotfiles
+    dest: "{{ item.dir }}/{{ dotfiles }}"
+    version: master
+  become: yes
+  become_user: "{{ item.user }}"
+  with_items:
+    - { user: "{{ user_sudo }}", dir: "{{ user_sudo_hdir }}/{{ rgh }}/{{ user_sudo }}" }
+
+- name: Remove file (delete file)
+  ansible.builtin.file:
+    user: "{{ item.user }}"
+    path: "{{ user_sudo_hdir }}/{{ item.path }}"
+    state: absent
+  loop:
+    - { user: "{{ user_sudo }}", path: "{{ user_sudo_hdir }}/.bashrc" }
+    - { user: "{{ user_sudo }}", path: "{{ user_sudo_hdir }}/.profile" }
+
+- name: Create two hard links
+  ansible.builtin.file:
+    user: "{{ item.user }}"
+    src: "/Repos/github.com/{{ dotfiles }}/{{ item.src }}"
+    dest: '{{ item.dest }}'
+    state: link
+  loop:
+    - { user: "{{ user_sudo }}", src: ".bashrc", dest: "{{ user_sudo_hdir }}/.bashrc" }
+    - { user: "{{ user_sudo }}", src: ".profile", dest: "{{ user_sudo_hdir }}/.profile" }
+    - { user: "{{ user_sudo }}", src: ".inputrc", dest: "{{ user_sudo_hdir }}/.inputrc" }
+    - { user: "{{ user_sudo }}", src: ".dircolors", dest: "{{ user_sudo_hdir }}/.dircolors" }

@@ -1,0 +1,34 @@
+---
+# check if pck is install : dpkg -l | grep vlc
+
+- name: TOOLS | apt install stuff
+  apt:
+    pkg:
+      - git
+      - htop
+      - tree
+      - nnn
+      - jq
+      - net-tools
+      - vim
+      - lynx
+      - apt-transport-https
+      - curl
+      - build-essential
+      - libssl-dev
+      - httpie
+      - unzip
+      - less
+      - whois
+      - nmap
+      - unattended-upgrades
+      - apt-listchanges
+    state: present
+    update_cache: yes
+
+# - name: TOOLS | APT REMOVE
+#   apt:
+#     - postgresql
+#     - postgresql-client
+#     - postgresql-client-common
+#     state: absent
