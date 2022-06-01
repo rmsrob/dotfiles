@@ -24,6 +24,7 @@ export PLATFORM OS
 
 _have()      { type "$1" &>/dev/null; }
 _source_if() { [[ -r "$1" ]] && source "$1"; }
+_dir_exist() if [[ ! -d "$1" ]] then echo Hey $USER should you create "$1" fi
 
 # ----------------------- environment variables ----------------------
 # (also see envx)
@@ -35,10 +36,15 @@ export ANON="${ANON:-${USER:0:1}}$USER"
 export GITUSER="$USER"
 export GITANON="$ANON"
 export REPOS="$HOME/Repos"
+_dir_exist $REPOS
 export GHREPOS="$REPOS/github.com/$GITUSER"
+_dir_exist $GHREPOS
 export GHREPOSEANON="$REPOS/github.com/$GITANON"
+_dir_exist $GHREPOSEANON
 export DOTFILES="$GHREPOS/dotfiles"
+_dir_exist $DOTFILES
 export SCRIPTS="$DOTFILES/scripts"
+_dir_exist $SCRIPTS
 export DESKTOP="$HOME/Desktop"
 export DOCUMENTS="$HOME/Documents"
 export DOWNLOADS="$HOME/Downloads"
@@ -48,6 +54,7 @@ export PICTURES="$HOME/Pictures"
 export MUSIC="$HOME/Music"
 export VIDEOS="$HOME/Videos"
 export VMS="$HOME/Vms"
+_dir_exist $VMS
 export TERM=xterm-256color
 export HRULEWIDTH=73
 export EDITOR=vi
