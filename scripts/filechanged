@@ -1,0 +1,2 @@
+#!/bin/sh
+find . -mmin -$1 2>/dev/null

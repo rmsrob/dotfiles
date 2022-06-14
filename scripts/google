@@ -1,2 +1,2 @@
 #!/bin/sh
-lynx "google.com/search?q=$*"
+lynx_me "google.com/search?q=$*"
