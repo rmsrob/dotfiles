@@ -37,6 +37,7 @@ export GITUSER="$USER"
 export GITANON="$ANON"
 export REPOS="$HOME/Repos"
 # _dir_exist $REPOS
+export GHDIR="$REPOS/github.com"
 export GHREPOS="$REPOS/github.com/$GITUSER"
 # _dir_exist $GHREPOS
 export GHREPOSEANON="$REPOS/github.com/$GITANON"
@@ -215,7 +216,7 @@ pathappend \
 
 # ------------------------------ cdpath ------------------------------
 
-export CDPATH=".:$GHREPOS:$GHREPOSEANON:$DOTFILES:$REPOS:/media/$USER:$HOME"
+export CDPATH=".:$GHREPOS:$GHREPOSEANON:$DOTFILES:$GHDIR:$REPOS:/media/$USER:$HOME"
 
 # ------------------------ bash shell options ------------------------
 
@@ -255,6 +256,8 @@ export greyish="`EXT_COLOR 245`"
 export cyan="`EXT_COLOR 51`"
 export lime="`EXT_COLOR 82`"
 export yellow="`EXT_COLOR 227`"
+export white="`EXT_COLOR 254`"
+export orange="`EXT_COLOR 202`"
 
 __ps1() {
   USER="$blackish\u$no_color"
@@ -313,8 +316,16 @@ __ps1() {
   else
     SYMBOL="$lime$ $no_color";
   fi
+  
+  if [[ $PLATFORM = Linux ]] ; then
+    ICOS="$orange$no_color"
+  elif [[ $PLATFORM = Mac ]]; then
+    ICOS="$white$no_color"
+  else
+    ICOS="$lime$no_color"
+  fi
 
-  prompt="\n$USER$_AT$HEXHOST $DIR $BRANCH\n $SYMBOL ➜ "
+  prompt="\n$ICOS $USER$_AT$HEXHOST $DIR $BRANCH\n $SYMBOL ➜ "
 
   PS1="$prompt"
 }
