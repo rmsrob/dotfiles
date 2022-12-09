@@ -1,39 +1,71 @@
 ---
-- name: "USER | {{ dotfiles }}"
+- name: ME GROUPE
+  group:
+    name: "{{ user_me }}"
+    state: present
+
+- name: ME ME
+  user:
+    name: "{{ user_me }}"
+    group: "{{ user_me }}"
+    shell: /bin/bash
+    home: "{{ user_me_hdir }}" 
+    create_home: yes
+    state: present
+
+# - name: ME PUB SSH
+#   authorized_key:
+#     user: "{{ user_me }}"
+#     key: "{{ lookup('file', '~/.ssh/aws.ed25519.pub') }}"
+#     state: present
+
+- name: "SUDO USER"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^{{ user_me }}"
+    line: "{{ user_me }} ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
+
+- name: "USER | {{ dotfiles }}"  
+  become: yes
+  become_user: "{{ user_me }}"
   git:
     repo: https://github.com/rrobrms/dotfiles
     dest: "{{ item.dir }}/{{ dotfiles }}"
     version: master
-  become: yes
-  become_user: "{{ item.user }}"
+    force: true
   with_items:
-    - { user: "{{ user_sudo }}", dir: "{{ user_sudo_hdir }}/{{ rgh }}/{{ user_sudo }}" }
+    - { user: "{{ user_me }}", dir: "{{ user_me_hdir }}/{{ rgh }}/{{ user_me }}" }
 
 - name: Remove file
   ansible.builtin.file:
-    path: "{{ user_sudo_hdir }}/{{ item.path }}"
+    path: "{{ user_me_hdir }}/{{ item.path }}"
     state: absent
   loop:
-    - { path: "{{ user_sudo_hdir }}/.bashrc" }
-    - { path: "{{ user_sudo_hdir }}/.profile" }
+    - { path: "{{ user_me_hdir }}/.bashrc" }
+    - { path: "{{ user_me_hdir }}/.profile" }
 
 - name: Create Sys links
+  become: yes
+  become_user: "{{ user_me }}"
   ansible.builtin.file:
     src: "{{ item.src }}"
     dest: '{{ item.dest }}'
     owner: "{{ item.owner }}"
     group: "{{ item.owner }}"
     force: yes
+    follow: yes
     state: link
   loop:
-    - { src: "{{ user_sudo_hdir }}/{{ rgh }}/{{ user_sudo }}/{{ dotfiles }}/.bashrc", dest: "{{ user_sudo_hdir }}/.bashrc", owner: "{{ user_sudo }}" }
-    - { src: "{{ user_sudo_hdir }}/{{ rgh }}/{{ user_sudo }}/{{ dotfiles }}/.profile", dest: "{{ user_sudo_hdir }}/.profile", owner: "{{ user_sudo }}" }
-    - { src: "{{ user_sudo_hdir }}/{{ rgh }}/{{ user_sudo }}/{{ dotfiles }}/.inputrc", dest: "{{ user_sudo_hdir }}/.inputrc", owner: "{{ user_sudo }}" }
-    - { src: "{{ user_sudo_hdir }}/{{ rgh }}/{{ user_sudo }}/{{ dotfiles }}/.dircolors", dest: "{{ user_sudo_hdir }}/.dircolors", owner: "{{ user_sudo }}" }
+    - { src: "{{ user_me_hdir }}/{{ rgh }}/{{ user_me }}/{{ dotfiles }}/.bashrc", dest: "{{ user_me_hdir }}/.bashrc", owner: "{{ user_me }}" }
+    - { src: "{{ user_me_hdir }}/{{ rgh }}/{{ user_me }}/{{ dotfiles }}/.profile", dest: "{{ user_me_hdir }}/.profile", owner: "{{ user_me }}" }
+    - { src: "{{ user_me_hdir }}/{{ rgh }}/{{ user_me }}/{{ dotfiles }}/.inputrc", dest: "{{ user_me_hdir }}/.inputrc", owner: "{{ user_me }}" }
+    - { src: "{{ user_me_hdir }}/{{ rgh }}/{{ user_me }}/{{ dotfiles }}/.dircolors", dest: "{{ user_me_hdir }}/.dircolors", owner: "{{ user_me }}" }
 
 - name: Make Scripts files chmod x
   ansible.builtin.file:
-    path: "{{ user_sudo_hdir }}/{{ rgh }}/{{ user_sudo }}/{{ dotfiles }}/scripts"
+    path: "{{ user_me_hdir }}/{{ rgh }}/{{ user_me }}/{{ dotfiles }}/scripts"
     # mode: u=rwX,g=rX,o=rX
     mode: '0775'
     recurse: yes

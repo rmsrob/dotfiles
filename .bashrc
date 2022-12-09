@@ -28,24 +28,14 @@ _source_if() { [[ -r "$1" ]] && source "$1"; }
 
 # ----------------------- environment variables ----------------------
 # (also see envx)
-# user = bob
-# anon = bbob
 
 export USER="${USER:-$(whoami)}"
-export ANON="${ANON:-${USER:0:1}}$USER"
 export GITUSER="$USER"
-export GITANON="$ANON"
 export REPOS="$HOME/Repos"
-# _dir_exist $REPOS
 export GHDIR="$REPOS/github.com"
 export GHREPOS="$REPOS/github.com/$GITUSER"
-# _dir_exist $GHREPOS
-export GHREPOSEANON="$REPOS/github.com/$GITANON"
-# _dir_exist $GHREPOSEANON
 export DOTFILES="$GHREPOS/dotfiles"
-# _dir_exist $DOTFILES
 export SCRIPTS="$DOTFILES/scripts"
-# _dir_exist $SCRIPTS
 export DESKTOP="$HOME/Desktop"
 export DOCUMENTS="$HOME/Documents"
 export DOWNLOADS="$HOME/Downloads"
@@ -55,20 +45,22 @@ export PICTURES="$HOME/Pictures"
 export MUSIC="$HOME/Music"
 export VIDEOS="$HOME/Videos"
 export VMS="$HOME/Vms"
-# _dir_exist $VMS
 export TERM=xterm-256color
 export HRULEWIDTH=73
 export EDITOR=vi
 export VISUAL=vi
 export EDITOR_PREFIX=vi
-export GOPRIVATE="github.com/$GITUSER/*,github.com/$GITANON/*,gitlab.com/$GITUSER/*"
+export GOROOT="/usr/local/go"
+export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
+# GOPRIVATE="github.com/*,gitlab.com/$GITUSER/*"
 export GOPATH="$HOME/.local/share/go"
 export GOBIN="$HOME/.local/bin"
 export GOPROXY=direct
 export CGO_ENABLED=0
-export NVM_DIR="$HOME/.nvm"
-export NODE_PATH="${NODE_PATH:-$(which node | rev | cut -c6- | rev)}"
-export HOMEBREW="${HOMEBREW:-$(which brew | rev | cut -c6- | rev)}"
+export HOMEBREW="/opt/homebrew/bin"
+export FOUDRYBIN="$HOME/.foundry/bin"
+export BUN_INSTALL="$HOME/.bun"
+export RUSTUP="$HOME/.cargo/bin" # . "$HOME/.cargo/env"
 # export PYTHONDONTWRITEBYTECODE=2 # WTF var name
 export LC_COLLATE=C
 export LANG=en_US.UTF-8
@@ -95,19 +87,8 @@ export inverseoff=$'\033[27m'
 export normal=$'\033[39m'
 export normalbg=$'\033[49m'
 
-export LESS_TERMCAP_mb="[35m" # magenta
-export LESS_TERMCAP_md="[33m" # yellow
-export LESS_TERMCAP_me="" # "0m"
-export LESS_TERMCAP_se="" # "0m"
-export LESS_TERMCAP_so="[34m" # blue
-export LESS_TERMCAP_ue="" # "0m"
-export LESS_TERMCAP_us="[4m"  # underline
-
-export NNN_COLORS='#0a1b2c3d;1234'
-export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
-
-# export ANSIBLE_INVENTORY="$HOME/.config/ansible/ansible_hosts"
-export DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock
+# DISABLE THIS ON MAC OSX
+# export DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock
 
 # [[ -d /.vim/spell ]] && export VIMSPELL=("$HOME/.vim/spell/*.add")
 
@@ -118,12 +99,6 @@ export DOCKER_HOST=unix:///run/user/$(id -u)/docker.sock
 # ------------------------------- pager ------------------------------
 
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
-
-if [[ $PLATFORM = Mac ]]; then
-  if ! havecmd gls; then
-    echo 'Need to `brew install coreutils` for Mac to work.'
-  fi 
-fi
 
 if [[ -x /usr/bin/lesspipe ]]; then
   export LESSOPEN="| /usr/bin/lesspipe %s";
@@ -145,6 +120,17 @@ if _have dircolors; then
     eval "$(dircolors -b)"
   fi
 fi
+
+export LESS_TERMCAP_mb="[35m" # magenta
+export LESS_TERMCAP_md="[33m" # yellow
+export LESS_TERMCAP_me="" # "0m"
+export LESS_TERMCAP_se="" # "0m"
+export LESS_TERMCAP_so="[34m" # blue
+export LESS_TERMCAP_ue="" # "0m"
+export LESS_TERMCAP_us="[4m"  # underline
+
+export NNN_COLORS='#0a1b2c3d;1234'
+export NNN_FCOLORS='c1e2272e006033f7c6d6abc4'
 
 export JQ_null="38;5;160"
 export JQ_false="38;5;214"
@@ -168,6 +154,13 @@ rgbg () {
 } && export -f rgb
 
 # ------------------------------- path -------------------------------
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
+
+# WTF:FIX npx asking me to install the thing! if npm -v > 7
+export npm_config_yes=true
 
 pathappend() {
   declare arg
@@ -193,11 +186,14 @@ pathprepend() {
 # remember last arg will be first in path
 pathprepend \
   /usr/local/bin \
+  "$BUN_INSTALL/bin" \
   "$HOME/.local/bin" \
   "$HOMEBREW" \
   "$NVM_DIR"* \
   "$NODE_PATH" \
   "$GHREPOS/cmd-"* \
+  "$RUSTUP" \
+  "$FOUDRYBIN" \
   "$SCRIPTS" 
 
 pathappend \
@@ -214,9 +210,12 @@ pathappend \
   /sbin \
   /bin
 
+# export NODE_PATH="${NODE_PATH:-$(which node | rev | cut -c6- | rev)}"
+# export HOMEBREW="${HOMEBREW:-$(which brew | rev | cut -c6- | rev)}"
+
 # ------------------------------ cdpath ------------------------------
 
-export CDPATH=".:$GHREPOS:$GHREPOSEANON:$DOTFILES:$GHDIR:$REPOS:/media/$USER:$HOME"
+export CDPATH=".:$GHREPOS:$DOTFILES:$GHDIR:$REPOS:/media/$USER:$HOME"
 
 # ------------------------ bash shell options ------------------------
 
@@ -226,7 +225,7 @@ shopt -s expand_aliases
 shopt -s globstar
 shopt -s dotglob
 shopt -s extglob
-
+#shopt -s cdable_vars
 #shopt -s nullglob # bug kills completion for some
 #set -o noclobber
 
@@ -256,15 +255,15 @@ export greyish="`EXT_COLOR 245`"
 export cyan="`EXT_COLOR 51`"
 export lime="`EXT_COLOR 82`"
 export yellow="`EXT_COLOR 227`"
-export white="`EXT_COLOR 254`"
+export white="`EXT_COLOR 249`"
 export orange="`EXT_COLOR 202`"
 
 __ps1() {
-  USER="$blackish\u$no_color"
-  _AT="$greyish@$no_color"
-  XHOST="0x$((0x$(sha1sum <<<$(hostname))0))"
-  HEXHOST="$blackish${XHOST::4}...${XHOST: 0-5}$no_color"
-  DIR="$cyan\w$no_color"
+  PS_USER="$blackish\u$no_color"
+  PS_AT="$greyish@$no_color"
+  PS_XHOST="0x$((0x$(sha1sum <<<$(hostname))0))"
+  PS_HEXHOST="$blackish${PS_XHOST::4}...${PS_XHOST: 0-5}$no_color"
+  PS_DIR="$cyan\w$no_color"
 
   function is_git_repository {
     git branch > /dev/null 2>&1
@@ -302,30 +301,30 @@ __ps1() {
       branch="${BASH_REMATCH[2]}"
     fi
 
-    BRANCH="${state}(${branch}) ${remote}${no_color} "
+    PS_BRANCH="${state}(${branch}) ${remote}${no_color} "
   }
 
   if is_git_repository ; then
       set_git_branch
   else
-      BRANCH="$cyan.$no_color"
+      PS_BRANCH="$cyan.$no_color"
   fi
 
   if [ "$(whoami)" == "root" ] ; then
-    SYMBOL="$pink# $no_color";
+    PS_SYMBOL="$pink# $no_color";
   else
-    SYMBOL="$lime$ $no_color";
+    PS_SYMBOL="$lime$ $no_color";
   fi
   
   if [[ $PLATFORM = Linux ]] ; then
-    ICOS="$orange$no_color"
+    PS_ICOS="$orange$no_color"
   elif [[ $PLATFORM = Mac ]]; then
-    ICOS="$white$no_color"
+    PS_ICOS="$white  $no_color"
   else
-    ICOS="$lime$no_color"
+    PS_ICOS="$lime  $no_color"
   fi
 
-  prompt="\n$ICOS $USER$_AT$HEXHOST $DIR $BRANCH\n $SYMBOL ➜ "
+  prompt="\n$PS_ICOS $PS_USER$PS_AT$PS_HEXHOST $PS_DIR $PS_BRANCH\n $PS_SYMBOL ➜ "
 
   PS1="$prompt"
 }
@@ -366,24 +365,20 @@ bind "set skip-completed-text off"
 unalias -a
 alias ..='cd ..'
 alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
 alias cp='cp -iv'
 alias mv='mv -iv'
 alias mkd='mkdir -pv'
 alias destroy='shred -uv'
-alias lessf="less +F"
-alias hl="highlight --out-format=ansi"
-alias grep="grep --color=always -r"
-alias fgrep="fgrep --color=always -r"
-alias egrep="egrep --color=always -r"
+alias lessf='less +F'
+alias more='less'
+alias hl='highlight --out-format=ansi'
+alias grep='grep --color=always -r'
+alias fgrep='fgrep --color=always -r'
+alias egrep='egrep --color=always -r'
 alias wget='wget -c'
 alias ping='ping -c 4'
 alias '?'=duck
 alias '??'=google
-alias '???'=bing
-alias dot='cd $DOTFILES'
-alias scripts='cd $SCRIPTS'
 alias ls='ls -h --color=auto'
 _have lsd && alias ls='lsd'
 alias ll='ls -alF'
@@ -393,20 +388,22 @@ alias lt='lsd --tree'
 alias free='free -h'
 alias df='df -H'
 alias du='du -ch'
-alias chmox='chmod +x'
+alias chmodx='chmod +x'
 alias diff='diff --color'
-alias g="git"
-alias gam="git add .; git commit -m "
-alias gpom="git push origin master"
+alias g='git'
+alias gam='git add .; git commit -m '
+alias gpom='git push origin master'
+alias gpov='git push origin develop'
 alias temp='cd $(mktemp -d)'
 alias clear='printf "\e[H\e[2J"'
 alias c='printf "\e[H\e[2J"'
+alias cdd=cd
 
-_have vim && alias vi=vim
 _have lazygit && alias lg='lazygit'
 _have nnn && alias n='nnn -e'
 _have nnn && alias N='sudo -E nnn -dH'
-_have nvim && alias nv='nvim'
+_have vim && alias vi='vim'
+_have nvim && alias vi='nvim'
 _have rg && alias rgg="rg -i -M=50"
 
 alias view='vi -R'
@@ -497,10 +494,9 @@ _have spotify && . <(spotify completion bash 2>/dev/null)
 _have k && complete -o default -F __start_kubectl k
 _have kind && . <(kind completion bash)
 _have helm && . <(helm completion bash)
-_have podman && _source_if "$HOME/.local/share/podman/completion"
-_have docker && _source_if "$HOME/.local/share/docker/completion"
+# _have docker && _source_if "$HOME/.local/share/docker/completion"
 _have docker-compose && complete -F _docker_compose dc
-_have brew && _source_if "/opt/homebrew/etc/bash_completion.d/"
+_have brew && _source_if "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 # -------------------- personalized configuration --------------------
 

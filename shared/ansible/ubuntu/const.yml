@@ -9,9 +9,11 @@ cnx_ip: "13.13.337.337" # CNX IP
 
 # ? USERS
 user_sudo: ubuntu
+user_me: rmsrob
 
 # ? USERS DIR HOME
 user_sudo_hdir: "/home/{{ user_sudo }}"
+user_me_hdir: "/home/{{ user_me }}"
 
 # ? USERS GH REPOS
 rgh: "Repos/github.com"

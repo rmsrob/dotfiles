@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-# filename discordtime
-# discord time for 2022 May 31 at 23h05 GMT
-# discordtime 2022 05 31 23 05
+if [ -z "$1" ]; then
+  echo "usage: discordtime <YYYY MM DD HH MM> (in GMT)" 
+  exit
+fi
 
 epoch=$(date -d "$1-$2-$3 $4:$5:00 +0000" +"%s")
 epoch_to_date=$(date -d @$epoch +%Y%m%d_%H%M%S)    

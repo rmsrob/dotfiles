@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 cat << 'EOM'
                     GNU GENERAL PUBLIC LICENSE
@@ -341,4 +341,3 @@ consider it more useful to permit linking proprietary applications with the
 library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.
 EOM
-

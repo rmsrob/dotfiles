@@ -2,7 +2,7 @@
 # TODO CHECK YOUR HOST FILE FOR VPS IP
 - name: SERVER | install
   hosts: ec2
-  become: true
+  become: yes
 
   # TODO CHECK YOUR CONST.YML
   tasks:

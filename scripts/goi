@@ -3,8 +3,11 @@
 REPOSITORY="${PWD##*/}"
 ROOTDIR=`echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//'`
 
+go mod init github.com/$ROOTDIR/$REPOSITORY
+echo "go mod init github.com/$ROOTDIR/$REPOSITORY"
+
 newreadme > README.md
 lcgnu2 > LICENCE
 newgitignore > .gitignore
 git init && git add .
-echo "creating: git versioning"
+echo "inititalized repository with git and basic files"

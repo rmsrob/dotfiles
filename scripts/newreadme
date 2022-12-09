@@ -1,13 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-thisfile="README.md"
-REPOSITORY="${PWD##*/}"
-ROOTDIR=`echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//'`
-
-echo "creating: $thisfile"
-touch "$thisfile"
-
-cat > $thisfile << EOF
+cat << 'EOM'
 ![WIP](https://img.shields.io/badge/status-wip-red)
 ![GitHub][li-badge] ![tile_jobs][action_name] [![code_style: prettier][li-style]]
 [li-badge]: https://img.shields.io/github/license/$ROOTDIR/$REPOSITORY
@@ -39,4 +32,4 @@ Required:
 
 [me]: https://github.com/$USER
 
-EOF
+EOM

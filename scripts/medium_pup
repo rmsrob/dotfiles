@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if ! havecmd pup ; then
-  telln '*Need to install `the Go lib pup`*.'
+  echo '*Need to install `the Go lib pup`*.'
   exit 1
 fi
 

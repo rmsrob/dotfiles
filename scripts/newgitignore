@@ -1,11 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-thisfile=".gitignore"
-
-echo "creating: $thisfile"
-touch "$thisfile"
-
-cat > $thisfile << 'EOM'
+cat << 'EOM'
 .git
 log
 
@@ -47,3 +42,4 @@ yarn-error.log*
 # Test binary, built with `go test -c`
 *.test
 __debug_bin
+EOM

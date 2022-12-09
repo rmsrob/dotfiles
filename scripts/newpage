@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dday=`date +"%Y-%m-%d"`
+dday=`isosec`
 fn="$*"
 cfn=${fn// /-}
 thisfile="${dday}_${cfn}.md"
