@@ -6,7 +6,7 @@
 
 > Tips: 
 - work best with bash and not zsh
-- `pull` the dotfiles repo inside `/home/<user>}/Repos/github.com/<gh-user>/dotfiles`
+- `pull` the dotfiles repo inside `/home/<user>/Repos/github.com/<gh-user>/dotfiles`
 - then do this:
 
 ```sh
