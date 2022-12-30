@@ -17,5 +17,9 @@ ln -sv $DOTFILES/.bashrc ~/.bashrc
 ln -sv $DOTFILES/.profile ~/.profile
 ln -sv $DOTFILES/.inputrc ~/.inputrc
 ln -sv $DOTFILES/.dircolors ~/.dircolors
+ln -nsvf $DOTFILES/shared/.vim $HOME
+ln -sv $DOTFILES/shared/.vim/vim.vim $HOME/.vimrc
 ln -sv $DOTFILES/shared/tmux/.tmux.conf ~/.tmux.conf
+ln -sv $DOTFILES/shared/alacritty/alacritty.yml $HOME/.config/alacritty/alacritty.yml
+ln -nsvf $DOTFILES/shared/nvim $HOME/.config
 ```

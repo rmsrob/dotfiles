@@ -1,8 +1,0 @@
-#!/bin/sh
-
-exec brew install coreutils gls ffmpeg youtube-dl binutils diffutils ed findutils gawk gnu-indent lazygit weechat libtool gnu-sed gnu-tar gnu-which gnutls grep gzip tmux watch wdiff curl wget ctop reattach-to-user-namespace bash bash-completion gdb gpatch m4 make file-formula git less openssh cointop unzip vim gpg jq bash lynx golang gpg gh pandoc nmap ansible ripgrep lsd neovim tree-sitter solidity ethereum nnn
-
-echo "Now don't forget:"
-echo "  Add /usr/local/bin/bash to /etc/shells"
-echo "  Run chsh -s /usr/local/bin/bash"
-echo "  Use #!/usr/bin/env bash as shebang line"

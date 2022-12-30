@@ -7,7 +7,7 @@ cargo init
 echo "cargo new $REPOSITORY/$REPOSITORY"
 
 newreadme > README.md
-lcgnu2 > LICENCE
+lcapache > LICENSE
 newgitignore > .gitignore
 git init && git add .
 echo "init cargo repo and basic files"

@@ -1,0 +1,38 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "usage: oai ask me something in one line"
+  echo "you must also have an API_KEY1/2/3 could be the same"
+  echo "into the same dir of this script `.openai.env`"
+fi
+
+source $SCRIPTS/.openai.env
+API_ENDPOINT="https://api.openai.com/v1/completions"
+MODEL=text-davinci-003
+MAX_TOKEN=1500
+TEMPERATURE=0
+day_of_week=$(date +%u)
+
+# If we are on sunday and tuesday
+if [ $day_of_week == 0 ] || [ $day_of_week == 3 ]; then
+  SECRET_KEY=$API_KEY1
+# or on monday and friday 
+elif [ $day_of_week == 1 ] || [ $day_of_week == 5 ]; then
+  SECRET_KEY=$API_KEY2
+else # so for wednesday, thursday, saturday
+  SECRET_KEY=$API_KEY3
+fi
+
+RESPONSE=$(curl --silent -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $SECRET_KEY" -d "{\"model\": \"$MODEL\", \"prompt\": \"$@\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT  | jq '.choices[]'.text)
+
+if [ ${#RESPONSE} -gt 120 ]; then
+  RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\"/"/g' <<< "$RESPONSE")
+  echo "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] \t$RESP"
+  echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >> $SCRIPTS/openai.log 
+  echo "[OPENAI] \t$RESP\n" >> $SCRIPTS/openai.log
+else
+  RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<< "$RESPONSE")
+  echo "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] $RESP"
+  echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >> $SCRIPTS/openai.log 
+  echo "[OPENAI] $RESP\n" >> $SCRIPTS/openai.log
+fi

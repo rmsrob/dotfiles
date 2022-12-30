@@ -384,7 +384,7 @@ _have lsd && alias ls='lsd'
 alias ll='ls -alF'
 alias la='ls -lA'
 alias l='ls -l'
-alias lt='lsd --tree'
+_have lsd && alias lt='lsd --tree'
 alias free='free -h'
 alias df='df -H'
 alias du='du -ch'
@@ -393,40 +393,29 @@ alias diff='diff --color'
 alias g='git'
 alias gam='git add .; git commit -m '
 alias gpom='git push origin master'
-alias gpov='git push origin develop'
-alias temp='cd $(mktemp -d)'
+alias gpod='git push origin develop'
+alias temp='cd $(mktemp -d -t foobar.XXXXX)'
 alias clear='printf "\e[H\e[2J"'
 alias c='printf "\e[H\e[2J"'
 alias cdd=cd
+alias cc=c
+alias view='vi -R'
+alias oai='sh $SCRIPTS/oai '
+alias oia='sh $SCRIPTS/oai '
 
-_have lazygit && alias lg='lazygit'
+_have lazygit && alias lzg='lazygit'
+_have lazydocker && alias lzd='lazydocker'
 _have nnn && alias n='nnn -e'
 _have nnn && alias N='sudo -E nnn -dH'
-_have vim && alias vi='vim'
-_have nvim && alias vi='nvim'
+# _have vim && alias vi='vim'
+# _have nvim && alias vim='nvim'
 _have rg && alias rgg="rg -i -M=50"
-
-alias view='vi -R'
-
 _have tmux && alias ktmux='tmux kill-server'
 _have ytop && alias ytop='ytop -ps'
 _have cointop && alias coint='cointop'
 _have docker-compose && alias dc="docker-compose"
 
 # ----------------------------- functions ----------------------------
-
-envx() {
-  local envfile="${1:-"$HOME/.env"}"
-  [[ ! -e "$envfile" ]] && echo "$envfile not found" && return 1
-  while IFS= read -r line; do
-    name=${line%%=*}
-    value=${line#*=}
-    [[ -z "${name}" || $name =~ ^# ]] && continue
-    export "$name"="$value"
-  done < "$envfile"
-} && export -f envx
-
-[[ -e "$HOME/.env" ]] && envx "$HOME/.env"
 
 now () {
   return echo "$1" $(date "+%A, %B %e, %Y, %l:%M:%S%p")
@@ -499,5 +488,18 @@ _have docker-compose && complete -F _docker_compose dc
 _have brew && _source_if "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 # -------------------- personalized configuration --------------------
+
+envx() {
+  local envfile="${1:-"$HOME/.env"}"
+  [[ ! -e "$envfile" ]] && echo "$envfile not found" && return 1
+  while IFS= read -r line; do
+    name=${line%%=*}
+    value=${line#*=}
+    [[ -z "${name}" || $name =~ ^# ]] && continue
+    export "$name"="$value"
+  done < "$envfile"
+} && export -f envx
+
+[[ -e "$HOME/.env" ]] && envx "$HOME/.env"
 
 _source_if "$HOME/.bash_private"

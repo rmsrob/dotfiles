@@ -7,7 +7,7 @@ go mod init github.com/$ROOTDIR/$REPOSITORY
 echo "go mod init github.com/$ROOTDIR/$REPOSITORY"
 
 newreadme > README.md
-lcgnu2 > LICENCE
+lcapache > LICENSE
 newgitignore > .gitignore
 git init && git add .
 echo "inititalized repository with git and basic files"

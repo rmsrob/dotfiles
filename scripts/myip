@@ -14,4 +14,3 @@ dig +short myip.opendns.com @resolver4.opendns.com
 #dig +short myip.opendns.com @resolver1.opendns.com -4
 # dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com
 # dig -6 TXT +short o-o.myaddr.l.google.com @ns1.google.com
-

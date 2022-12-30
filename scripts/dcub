@@ -5,4 +5,4 @@ if ! which docker 2>&1 > /dev/null; then
     exit 1
 fi
 
-docker run -it --rm busybox
+docker run -it --rm ubuntu

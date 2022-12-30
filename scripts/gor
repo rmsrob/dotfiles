@@ -1,5 +1,5 @@
 #!/bin/sh
-if [ -e "main.go" ]; then
-  exec go run main.go "$@"
+if [ -e "cmd" ]; then
+  exec go run cmd/main.go
 fi
-exec go run "$@"
+exec go run main.go

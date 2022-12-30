@@ -1,0 +1,17 @@
+#!/bin/sh
+
+ROOM="#$1"
+USER="unnameplayer"
+AUTO_JOIN=`echo "^twitch.autojoin = \"#$USER.*$"`
+NEW_AUTO_JOIN=`echo "twitch.autojoin = \"#$USER,$ROOM\""`
+
+sed -i "s/$AUTO_JOIN/$NEW_AUTO_JOIN/" ~/.weechat/irc.conf
+
+tmux new-session -s Twitch -n  -d
+
+tmux send-keys -t Twitch: "weechat" Enter
+tmux select-window -t Twitch:
+tmux split-window -v
+tmux send-keys -t Twitch: "streamlink twitch.tv/$1 best"
+
+tmux -u attach-session -d

@@ -1,3 +1,0 @@
-#!/bin/bash
-tmux attach -t r2ex || tmux new -s r2ex
-

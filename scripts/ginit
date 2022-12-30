@@ -4,7 +4,7 @@ REPOSITORY="${PWD##*/}"
 ROOTDIR=`echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//'`
 
 newreadme > README.md
-lcgnu2 > LICENCE
+lcapache > LICENSE
 newgitignore > .gitignore
 git init && git add .
 echo "creating: git versioning"
