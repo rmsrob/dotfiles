@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -z "$1" ]; then
   echo "usage: oai ask me something in one line"
@@ -25,20 +25,21 @@ fi
 
 RESPONSE=$(curl --silent -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $SECRET_KEY" -d "{\"model\": \"$MODEL\", \"prompt\": \"$@\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT)
 HTTP_CODE="${RESPONSE: -3}"
-RESPONSE="${RESPONSE}"
-# RESPONSE="${RESPONSE:0:${#RESPONSE}-3}"
-json_response="$(echo "$RESPONSE" | head -c -4)"
-RESPONSE="$(echo $json_response | jq -r '.choices[].text')"
+RESPONSE="${RESPONSE:0:${#RESPONSE}-4}"
+# RESPONSE="$(echo "$RESPONSE" | head -c -4)"
+RESPONSE="$(echo $RESPONSE | jq -r '.choices[].text')"
 
 gptChat() {
   if [ ${#RESPONSE} -gt 120 ]; then
-    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\"/"/g' <<< "$RESPONSE")
-    echo "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] \t$RESP"
+    # actually lol maybe a bug there! but work as espected
+    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<< "$RESPONSE")
+    # RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\"/"/g' <<< "$RESPONSE")
+    echo -e "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] \t$RESP"
     echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >> $SCRIPTS/openai.log 
     echo "[OPENAI] \t$RESP\n" >> $SCRIPTS/openai.log
   else
-    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<< "$RESPONSE")
-    echo "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] $RESP"
+    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<< $RESPONSE)
+    echo -e "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] $RESP"
     echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >> $SCRIPTS/openai.log 
     echo "[OPENAI] $RESP\n" >> $SCRIPTS/openai.log
   fi
