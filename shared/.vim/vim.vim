@@ -14,36 +14,27 @@ set nocompatible
 
 " automatically indent new lines
 set autoindent
-
 " automatically write files when changing when multiple files open
 set autowrite
-
 " deactivate line numbers
-set nonumber
-
+set number
+set relativenumber
 " turn col and row position on in bottom right
 set ruler " see ruf for formatting
-
 " show command and insert mode
 set showmode
-
 set tabstop=2
 
 "#######################################################################
 
 " disable visual bell (also disable in .inputrc)
 set t_vb=
-
 let mapleader=" "
-
-set softtabstop=2
-
+"  set softtabstop=2
 " mostly used with >> and <<
-set shiftwidth=2
-
-set smartindent
-
-set smarttab
+"  set shiftwidth=2
+"  set smartindent
+"  set smarttab
 
 if v:version >= 800
   " stop vim from silently messing with files that it shouldn't
@@ -53,8 +44,8 @@ if v:version >= 800
   set listchars=space:*,trail:*,nbsp:*,extends:>,precedes:<,tab:\|>
 
   " i hate automatic folding
-  set foldmethod=manual
-  set nofoldenable
+  "  set foldmethod=manual
+  "  set nofoldenable
 endif
 
 " mark trailing spaces as errors
@@ -65,10 +56,10 @@ set textwidth=72
 "set colorcolumn=73
 
 " replace tabs with spaces automatically
-set expandtab
+"  set expandtab
 
 " disable relative line numbers, remove no to sample it
-set norelativenumber
+"  set norelativenumber
 
 " makes ~ effectively invisible
 "highlight NonText guifg=bg
@@ -156,59 +147,59 @@ set ttyfast
 filetype plugin on
 
 " high contrast for streaming, etc.
-set background=dark
+"  set background=dark
 
 " base default color changes (gruvbox dark friendly)
-hi StatusLine ctermfg=black ctermbg=NONE
-hi StatusLineNC ctermfg=black ctermbg=NONE
-hi Normal ctermbg=NONE
-hi Special ctermfg=cyan
-hi LineNr ctermfg=black ctermbg=NONE
-hi SpecialKey ctermfg=black ctermbg=NONE
-hi ModeMsg ctermfg=black cterm=NONE ctermbg=NONE
-hi MoreMsg ctermfg=black ctermbg=NONE
-hi NonText ctermfg=black ctermbg=NONE
-hi vimGlobal ctermfg=black ctermbg=NONE
-hi ErrorMsg ctermbg=234 ctermfg=darkred cterm=NONE
-hi Error ctermbg=234 ctermfg=darkred cterm=NONE
-hi SpellBad ctermbg=234 ctermfg=darkred cterm=NONE
-hi SpellRare ctermbg=234 ctermfg=darkred cterm=NONE
-hi Search ctermbg=236 ctermfg=darkred
-hi vimTodo ctermbg=236 ctermfg=darkred
-hi Todo ctermbg=236 ctermfg=darkred
-hi IncSearch ctermbg=236 cterm=NONE ctermfg=darkred
-hi MatchParen ctermbg=236 ctermfg=darkred
+"  hi StatusLine ctermfg=black ctermbg=NONE
+"  hi StatusLineNC ctermfg=black ctermbg=NONE
+"  hi Normal ctermbg=NONE
+"  hi Special ctermfg=cyan
+"  hi LineNr ctermfg=black ctermbg=NONE
+"  hi SpecialKey ctermfg=black ctermbg=NONE
+"  hi ModeMsg ctermfg=black cterm=NONE ctermbg=NONE
+"  hi MoreMsg ctermfg=black ctermbg=NONE
+"  hi NonText ctermfg=black ctermbg=NONE
+"  hi vimGlobal ctermfg=black ctermbg=NONE
+"  hi ErrorMsg ctermbg=234 ctermfg=darkred cterm=NONE
+"  hi Error ctermbg=234 ctermfg=darkred cterm=NONE
+"  hi SpellBad ctermbg=234 ctermfg=darkred cterm=NONE
+"  hi SpellRare ctermbg=234 ctermfg=darkred cterm=NONE
+"  hi Search ctermbg=236 ctermfg=darkred
+"  hi vimTodo ctermbg=236 ctermfg=darkred
+"  hi Todo ctermbg=236 ctermfg=darkred
+"  hi IncSearch ctermbg=236 cterm=NONE ctermfg=darkred
+"  hi MatchParen ctermbg=236 ctermfg=darkred
 
 " color overrides
-au FileType * hi StatusLine ctermfg=black ctermbg=NONE
-au FileType * hi StatusLineNC ctermfg=black ctermbg=NONE
-au FileType * hi Normal ctermbg=NONE
-au FileType * hi Special ctermfg=cyan
-au FileType * hi LineNr ctermfg=black ctermbg=NONE
-au FileType * hi SpecialKey ctermfg=black ctermbg=NONE
-au FileType * hi ModeMsg ctermfg=black cterm=NONE ctermbg=NONE
-au FileType * hi MoreMsg ctermfg=black ctermbg=NONE
-au FileType * hi NonText ctermfg=black ctermbg=NONE
-au FileType * hi vimGlobal ctermfg=black ctermbg=NONE
-au FileType * hi goComment ctermfg=black ctermbg=NONE
-au FileType * hi ErrorMsg ctermbg=234 ctermfg=darkred cterm=NONE
-au FileType * hi Error ctermbg=234 ctermfg=darkred cterm=NONE
-au FileType * hi SpellBad ctermbg=234 ctermfg=darkred cterm=NONE
-au FileType * hi SpellRare ctermbg=234 ctermfg=darkred cterm=NONE
-au FileType * hi Search ctermbg=236 ctermfg=darkred
-au FileType * hi vimTodo ctermbg=236 ctermfg=darkred
-au FileType * hi Todo ctermbg=236 ctermfg=darkred
-au FileType * hi IncSearch ctermbg=236 cterm=NONE ctermfg=darkred
-au FileType * hi MatchParen ctermbg=236 ctermfg=darkred
-au FileType markdown,pandoc hi Title ctermfg=yellow ctermbg=NONE
-au FileType markdown,pandoc hi Operator ctermfg=yellow ctermbg=NONE
-au FileType markdown,pandoc set tw=0
-au FileType yaml hi yamlBlockMappingKey ctermfg=NONE
-au FileType yaml set sw=2
-au FileType bash set sw=2
-au FileType c set sw=8
-au FileType markdown,pandoc noremap j gj
-au FileType markdown,pandoc noremap k gk
+"  au FileType * hi StatusLine ctermfg=black ctermbg=NONE
+"  au FileType * hi StatusLineNC ctermfg=black ctermbg=NONE
+"  au FileType * hi Normal ctermbg=NONE
+"  au FileType * hi Special ctermfg=cyan
+"  au FileType * hi LineNr ctermfg=black ctermbg=NONE
+"  au FileType * hi SpecialKey ctermfg=black ctermbg=NONE
+"  au FileType * hi ModeMsg ctermfg=black cterm=NONE ctermbg=NONE
+"  au FileType * hi MoreMsg ctermfg=black ctermbg=NONE
+"  au FileType * hi NonText ctermfg=black ctermbg=NONE
+"  au FileType * hi vimGlobal ctermfg=black ctermbg=NONE
+"  au FileType * hi goComment ctermfg=black ctermbg=NONE
+"  au FileType * hi ErrorMsg ctermbg=234 ctermfg=darkred cterm=NONE
+"  au FileType * hi Error ctermbg=234 ctermfg=darkred cterm=NONE
+"  au FileType * hi SpellBad ctermbg=234 ctermfg=darkred cterm=NONE
+"  au FileType * hi SpellRare ctermbg=234 ctermfg=darkred cterm=NONE
+"  au FileType * hi Search ctermbg=236 ctermfg=darkred
+"  au FileType * hi vimTodo ctermbg=236 ctermfg=darkred
+"  au FileType * hi Todo ctermbg=236 ctermfg=darkred
+"  au FileType * hi IncSearch ctermbg=236 cterm=NONE ctermfg=darkred
+"  au FileType * hi MatchParen ctermbg=236 ctermfg=darkred
+"  au FileType markdown,pandoc hi Title ctermfg=yellow ctermbg=NONE
+"  au FileType markdown,pandoc hi Operator ctermfg=yellow ctermbg=NONE
+"  au FileType markdown,pandoc set tw=0
+"  au FileType yaml hi yamlBlockMappingKey ctermfg=NONE
+"  au FileType yaml set sw=2
+"  au FileType bash set sw=2
+"  au FileType c set sw=8
+"  au FileType markdown,pandoc noremap j gj
+"  au FileType markdown,pandoc noremap k gk
 
 set cinoptions+=:0
 
@@ -218,19 +209,45 @@ nnoremap confr :source $HOME/.vimrc<CR>
 
 set ruf=%30(%=%#LineNr#%.50F\ [%{strlen(&ft)?&ft:'none'}]\ %l:%c\ %p%%%)
 
-" only load plugins if Plug detected
+" auto-install vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $HOME/.vimrc
+endif
 if filereadable(expand("~/.vim/autoload/plug.vim"))
-
-  " github.com/junegunn/vim-plug
-
-  call plug#begin('~/.local/share/vim/plugins')
+  call plug#begin('~/.vim/plugged')
   Plug 'zah/nim.vim'
   Plug 'conradirwin/vim-bracketed-paste'
-  Plug 'morhetz/gruvbox'
+  Plug 'itchyny/lightline.vim'
+  "  Plug 'morhetz/gruvbox'
+  Plug 'sainnhe/gruvbox-material'
   Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'rwxrob/vim-pandoc-syntax-simple'
   call plug#end()
+  " Automatically install missing plugins on startup
+  autocmd VimEnter *
+    \ if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+    \|  PlugInstall --sync | q
+    \| endif
+
+  "  groovebox
+  if has('termguicolors')
+    set termguicolors
+  endif
+  set laststatus=2
+  let g:lightline = {
+        \ 'colorscheme': 'jellybeans',
+        \ }
+  set background=dark
+  let g:gruvbox_material_background = 'medium' "  `'hard'`, `'medium'`, `'soft'`
+  let g:gruvbox_material_better_performance = 1
+  let g:gruvbox_material_transparent_background = 2
+
+  colorscheme gruvbox-material
+  set cursorline  
+  set noshowmode
 
   " pandoc
   let g:pandoc#formatting#mode = 'h' " A'
@@ -252,13 +269,13 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   let g:go_highlight_build_constraints = 1
   let g:go_highlight_diagnostic_errors = 1
   let g:go_highlight_diagnostic_warnings = 1
-  "let g:go_auto_type_info = 1 " forces 'Press ENTER' too much
+  let g:go_auto_type_info = 1 " forces 'Press ENTER' too much
   let g:go_auto_sameids = 0
-  "let g:go_metalinter_command='golangci-lint'
-  "let g:go_metalinter_command='golint'
-  "let g:go_metalinter_autosave=1
+  let g:go_metalinter_command='golangci-lint'
+  let g:go_metalinter_command='golint'
+  let g:go_metalinter_autosave=1
   set updatetime=100
-  "let g:go_gopls_analyses = { 'composites' : v:false }
+  let g:go_gopls_analyses = { 'composites' : v:false }
   au FileType go nmap <leader>m ilog.Print("made")<CR><ESC>
   au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
 else

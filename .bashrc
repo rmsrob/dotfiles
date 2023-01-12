@@ -400,8 +400,7 @@ alias c='printf "\e[H\e[2J"'
 alias cdd=cd
 alias cc=c
 alias view='vi -R'
-alias oai='sh $SCRIPTS/oai '
-alias oia='sh $SCRIPTS/oai '
+alias oia='oai'
 
 _have lazygit && alias lzg='lazygit'
 _have lazydocker && alias lzd='lazydocker'

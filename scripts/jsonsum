@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [[ $# -eq 0 ]]; then
+    echo "Usage: add 1 or more .json or path/*.json it will sum the json" 
+    exit 1
+fi
+
+jq -r 'values | map(tonumber) | add' $1

@@ -1,7 +1,8 @@
 #!/bin/sh
-test -z "$1" && exit 1
+# test -z "$1" && exit 1
+ARG=${1:-1}
 YMLCONF="$DOTFILES/shared/alacritty/alacritty.yml"
-perl -p -i -e 's/^*opacity:\s*\S+/opacity: '$1'/' $YMLCONF
+perl -p -i -e 's/^*opacity:\s*\S+/opacity: '$ARG'/' $YMLCONF
 
 # https://sw.kovidgoyal.net/kitty/remote-control/?highlight=dynamic_background_opacity#kitty-set-background-opacity
 # kitty @ set-background-opacity $1

@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
+if [[ $# -eq 0 ]]; then
+    echo "Usage: add 1 or more file or path/file from root dir to add SPDX" 
+    exit 1
+fi
+
 YYYY=$(date +%4Y)
 COPYRIGHTS_DIR=`echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//'`
 
-if [ -f .gitignore ]; then
+# if [ -f .gitignore ]; then
+if [[ -d .git ]]; then
   for file in "$@"
   do
     TEMP_DIR=$(mktemp -d -t foobar.XXXXX)
@@ -16,6 +22,8 @@ if [ -f .gitignore ]; then
 ") "$file" >> "$TEMP_DIR/$file"
     mv "$TEMP_DIR/$file" "$file"
   done
+  echo "consider also"
+  echo "// SPDX-License-Identifier: AGPL-3.0-only"
 else
   echo "Error: you must be at the same level as the.gitignore file"
 fi

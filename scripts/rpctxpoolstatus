@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+if [ -z "$1" ]; then
+  API="http://127.0.0.1:8545"
+else
+  API="$1"
+fi
+
+response=$(curl -s --request POST \
+  --url $API \
+  --header 'Content-Type: application/json' \
+  --data '{"method":"txpool_status","params":[],"id":1,"jsonrpc":"2.0"}')
+
+# Extract the baseFee, pending, and queued values from the response
+baseFee=$(echo "$response" | jq '.result.baseFee' | tr -d '"')
+pending=$(echo "$response" | jq '.result.pending' | tr -d '"')
+queued=$(echo "$response" | jq '.result.queued' | tr -d '"')
+
+# Convert the hexadecimal values to decimal
+baseFeeDec=$(printf "%d" "$baseFee")
+pendingDec=$(printf "%d" "$pending")
+queuedDec=$(printf "%d" "$queued")
+num_transactions=$((pendingDec + queuedDec))
+
+echo "baseFee: $baseFeeDec"
+echo "pending: $pendingDec"
+echo "queued: $queuedDec"
+echo "TOTAL tx: $num_transactions"

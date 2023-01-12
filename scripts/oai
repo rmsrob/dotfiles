@@ -23,16 +23,34 @@ else # so for wednesday, thursday, saturday
   SECRET_KEY=$API_KEY3
 fi
 
-RESPONSE=$(curl --silent -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $SECRET_KEY" -d "{\"model\": \"$MODEL\", \"prompt\": \"$@\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT  | jq '.choices[]'.text)
+RESPONSE=$(curl --silent -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $SECRET_KEY" -d "{\"model\": \"$MODEL\", \"prompt\": \"$@\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT)
+HTTP_CODE="${RESPONSE: -3}"
+RESPONSE="${RESPONSE}"
+# RESPONSE="${RESPONSE:0:${#RESPONSE}-3}"
+json_response="$(echo "$RESPONSE" | head -c -4)"
+RESPONSE="$(echo $json_response | jq -r '.choices[].text')"
 
-if [ ${#RESPONSE} -gt 120 ]; then
-  RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\"/"/g' <<< "$RESPONSE")
-  echo "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] \t$RESP"
-  echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >> $SCRIPTS/openai.log 
-  echo "[OPENAI] \t$RESP\n" >> $SCRIPTS/openai.log
-else
-  RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<< "$RESPONSE")
-  echo "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] $RESP"
-  echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >> $SCRIPTS/openai.log 
-  echo "[OPENAI] $RESP\n" >> $SCRIPTS/openai.log
+gptChat() {
+  if [ ${#RESPONSE} -gt 120 ]; then
+    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\"/"/g' <<< "$RESPONSE")
+    echo "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] \t$RESP"
+    echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >> $SCRIPTS/openai.log 
+    echo "[OPENAI] \t$RESP\n" >> $SCRIPTS/openai.log
+  else
+    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<< "$RESPONSE")
+    echo "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] $RESP"
+    echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >> $SCRIPTS/openai.log 
+    echo "[OPENAI] $RESP\n" >> $SCRIPTS/openai.log
+  fi
+}
+
+if [ "$HTTP_CODE" != "200" ]; then
+    echo "\t🎰 api_key number "$(( 1 + $RANDOM % 3 ))""
+    sleep 3
+    SECRET_KEY=$API_KEY$(( 1 + $RANDOM % 3 ))
+    gptChat
+fi
+
+if [ "$HTTP_CODE" == "200" ]; then
+    gptChat
 fi
