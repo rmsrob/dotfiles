@@ -392,8 +392,8 @@ alias chmodx='chmod +x'
 alias diff='diff --color'
 alias g='git'
 alias gam='git add .; git commit -m '
-alias gpom='git push origin master'
-alias gpod='git push origin develop'
+# alias gpom='git push origin master'
+# alias gpod='git push origin develop'
 alias temp='cd $(mktemp -d -t foobar.XXXXX)'
 alias clear='printf "\e[H\e[2J"'
 alias c='printf "\e[H\e[2J"'
@@ -415,6 +415,24 @@ _have cointop && alias coint='cointop'
 _have docker-compose && alias dc="docker-compose"
 
 # ----------------------------- functions ----------------------------
+
+gpom () {
+  branch_name=$(git branch --show-current)
+  if [ "$branch_name" == "master" ] || [ "$branch_name" == "main" ]; then
+    git push origin $branch_name
+  else
+    echo "Neither 'master' nor 'main' branch exists."
+  fi
+}
+
+gpod () {
+  branch_name=$(git branch --show-current)
+  if [ "$branch_name" == "develop" ] || [ "$branch_name" == "dev" ]; then
+    git push origin $branch_name
+  else
+    echo "Neither 'develop' nor 'dev' branch exists."
+  fi
+}
 
 now () {
   return echo "$1" $(date "+%A, %B %e, %Y, %l:%M:%S%p")
@@ -499,6 +517,6 @@ envx() {
   done < "$envfile"
 } && export -f envx
 
-[[ -e "$HOME/.env" ]] && envx "$HOME/.env"
+[[ -e "$DOTFILES/.env" ]] && envx "$DOTFILES/.env"
 
 _source_if "$HOME/.bash_private"

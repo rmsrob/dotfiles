@@ -1,12 +1,16 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-  echo "usage: oai ask me something in one line"
-  echo "you must also have an API_KEY1/2/3 could be the same"
-  echo "into the same dir of this script `.openai.env`"
+if ! havecmd jq ; then
+  telln '*Need to install `jq`*.'
+  exit 1
 fi
 
-source $SCRIPTS/.openai.env
+if [ -z "$1" ]; then
+  echo "usage: Open Ai GPT-3 ask something in one line"
+  echo "make sure to source .env to load oai_api_key_1_/2/3"
+fi
+
+# source $hOME/.env or envx
 API_ENDPOINT="https://api.openai.com/v1/completions"
 MODEL=text-davinci-003
 MAX_TOKEN=1500
@@ -15,15 +19,15 @@ day_of_week=$(date +%u)
 
 # If we are on sunday and tuesday
 if [ $day_of_week == 0 ] || [ $day_of_week == 3 ]; then
-  SECRET_KEY=$API_KEY1
+  secret_key_=$oai_api_key_1_
 # or on monday and friday 
 elif [ $day_of_week == 1 ] || [ $day_of_week == 5 ]; then
-  SECRET_KEY=$API_KEY2
+  secret_key_=$oai_api_key_2_
 else # so for wednesday, thursday, saturday
-  SECRET_KEY=$API_KEY3
+  secret_key_=$oai_api_key_3_
 fi
 
-RESPONSE=$(curl --silent -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $SECRET_KEY" -d "{\"model\": \"$MODEL\", \"prompt\": \"$@\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT)
+RESPONSE=$(curl --silent -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $secret_key_" -d "{\"model\": \"$MODEL\", \"prompt\": \"$@\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT)
 HTTP_CODE="${RESPONSE: -3}"
 RESPONSE="${RESPONSE:0:${#RESPONSE}-4}"
 # RESPONSE="$(echo "$RESPONSE" | head -c -4)"
@@ -46,9 +50,9 @@ gptChat() {
 }
 
 if [ "$HTTP_CODE" != "200" ]; then
-    echo "\t🎰 api_key number "$(( 1 + $RANDOM % 3 ))""
+    echo -e "\t🎰 oai_api_key_"$(( 1 + $RANDOM % 3 ))""
     sleep 3
-    SECRET_KEY=$API_KEY$(( 1 + $RANDOM % 3 ))
+    secret_key_=$oai_api_key_$(( 1 + $RANDOM % 3 ))
     gptChat
 fi
 
