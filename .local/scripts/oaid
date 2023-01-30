@@ -1,0 +1,47 @@
+#!/bin/bash
+
+[[ -z $1 ]] && {
+  echo "usage: Open Dall.E Ai ask something"
+  exit 1
+}
+type jq &>/dev/null || {
+  echo "jq is not installed. Please install it before running this script."
+  exit 1
+}
+
+# source $hOME/.env or envx
+API_ENDPOINT="https://api.openai.com/v1/images/generations"
+SIZE="256x256"
+NUMB=1
+data=$@
+response_format_="url" # b64_json
+day_of_week=$(date +%u)
+
+secret_key_array=($oai_api_key_1_ $oai_api_key_2_ $oai_api_key_3_ $oai_api_key_4_)
+random_apikey() {
+  local secret_key_array=("$@")
+  echo "$(echo "${secret_key_array[@]}" | tr ' ' '\n' | shuf -n1)"
+}
+secret_key_=$(random_apikey "${secret_key_array[@]}")
+
+RESPONSE=$(curl --silent -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $secret_key_" -d "{\"size\": \"$SIZE\", \"prompt\": \"$data\", \"n\": $NUMB, \"response_format\": \"$response_format_\"}" $API_ENDPOINT)
+HTTP_CODE="${RESPONSE: -3}"
+RESPONSE="${RESPONSE:0:${#RESPONSE}-4}"
+RESPONSE="$(echo $RESPONSE | jq -r '.data[].url')"
+
+dallE() {
+  echo "$RESPONSE"
+  echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >>$SCRIPTS/dalle.log
+  echo "[Dall.E] \n\t$RESP\n" >>$SCRIPTS/dalle.log
+}
+
+if [ "$HTTP_CODE" != "200" ]; then
+  echo -e "Will try with an other api key in 3sec..."
+  sleep 3
+  secret_key_=$(random_apikey "${secret_key_array[@]}")
+  dallE
+fi
+
+if [ "$HTTP_CODE" == "200" ]; then
+  dallE
+fi

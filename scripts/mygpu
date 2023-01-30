@@ -1,6 +1,0 @@
-#!/bin/bash
-export MYGPUINFO1=`awk '/^Model/ {$1=""; print $0}' /proc/driver/nvidia/gpus/0000\:01\:00.0/information`
-export MYGPUTEMP=`nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader`
-
-echo "${MYGPUINFO1} @ +${MYGPUTEMP}°C"
-

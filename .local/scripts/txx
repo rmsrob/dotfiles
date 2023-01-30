@@ -1,0 +1,16 @@
+#!/bin/bash
+
+GHR_DIR="$REPOS"
+SESSION="RMSROB"
+NAME="rmsrob🍵"
+
+if tmux has-session -t $SESSION 2>/dev/null; then
+  # If the session already exists, attach to it
+  tmux -u attach-session -t $SESSION -d
+else
+  # Create a new session
+  tmux -u new-window -n $NAME
+  tmux -u new-session -s $SESSION -n $NAME -d
+
+  tmux -u attach-session -t $SESSION -d
+fi

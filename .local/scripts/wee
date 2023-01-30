@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ROOM="#$1"
+AUTO_JOIN=$(echo "^twitch.autojoin = \"#nocopyrightsounds.*$")
+NEW_AUTO_JOIN=$(echo "twitch.autojoin = \"#nocopyrightsounds,$ROOM\"")
+
+sed -i "s/$AUTO_JOIN/$NEW_AUTO_JOIN/" ~/.weechat/irc.conf
+
+weechat

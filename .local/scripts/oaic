@@ -1,0 +1,71 @@
+#!/bin/bash
+
+[[ -z $1 ]] && {
+  echo "usage: Open Ai GPT-3 ask something"
+  exit 1
+}
+type jq &>/dev/null || {
+  echo "jq is not installed. Please install it before running this script."
+  exit 1
+}
+
+# source $HOME/.env or envx
+API_ENDPOINT="https://api.openai.com/v1/completions"
+MODEL=text-davinci-003
+MAX_TOKEN=1500
+TEMPERATURE=0
+day_of_week=$(date +%u)
+
+# If we are on sunday and tuesday
+if [ $day_of_week == 0 ] || [ $day_of_week == 3 ]; then
+  secret_key_=$oai_api_key_1_
+# or on monday and friday
+elif [ $day_of_week == 1 ] || [ $day_of_week == 5 ]; then
+  secret_key_=$oai_api_key_2_
+else # so for wednesday, thursday, saturday
+  secret_key_=$oai_api_key_3_
+fi
+
+code=""
+data="$@"
+read -p "$(echo -e "\033[96mAdd a draft? [y/\033[1m\033[1;96mn\033[0m\033[96m]\033[0m: ")" choice
+if [ "$choice" == "y" ]; then
+  TEMP_DIR=$(mktemp -d -t foobar.XXXXX)
+  touch "$TEMP_DIR/draftcode"
+  vi "$TEMP_DIR/draftcode"
+  draftcode=$(cat "$TEMP_DIR/draftcode")
+  prompt_oaic="$@\n$draftcode"
+  data=$(printf '%q' "$prompt_oaic")
+fi
+
+RESPONSE=$(curl --silent -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $secret_key_" -d "{\"model\": \"$MODEL\", \"prompt\": \"$data\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT)
+HTTP_CODE="${RESPONSE: -3}"
+RESPONSE="${RESPONSE:0:${#RESPONSE}-4}"
+RESPONSE="$(echo $RESPONSE | jq -r '.choices[].text')"
+
+gptChat() {
+  if [ ${#RESPONSE} -gt 120 ]; then
+    # actually... but work as espected
+    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<<"$RESPONSE")
+    # RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\"/"/g' <<< "$RESPONSE")
+    echo -e "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] \t$RESP"
+    echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $data" >>$SCRIPTS/openai.log
+    echo "[OPENAI] \t$RESP\n" >>$SCRIPTS/openai.log
+  else
+    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<<"$RESPONSE")
+    echo -e "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] $RESP"
+    echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $data" >>$SCRIPTS/openai.log
+    echo "[OPENAI] $RESP\n" >>$SCRIPTS/openai.log
+  fi
+}
+
+if [ "$HTTP_CODE" != "200" ]; then
+  echo -e "\t🎰 oai_api_key_"$((1 + $RANDOM % 3))""
+  sleep 3
+  secret_key_=$oai_api_key_$((1 + $RANDOM % 3))
+  gptChat
+fi
+
+if [ "$HTTP_CODE" == "200" ]; then
+  gptChat
+fi

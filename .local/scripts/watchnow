@@ -1,0 +1,15 @@
+#!/bin/sh
+
+watchnow() {
+  declare -i delay="${1:-10}"
+  havecmd setterm && setterm --cursor off
+  trapterm 'setterm --cursor on; clear'
+  while true; do
+    clear
+    echo -n $(now-s) | lolcat
+    now-s >~/.now
+    sleep $delay
+  done
+}
+
+echo $watchnow

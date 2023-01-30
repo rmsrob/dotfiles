@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "usage: pswrand <number>"
+fi
+
+color='\033[38;2;0;255;60m'
+reset='\033[0m'
+
+echo $color
+head /dev/urandom | tr -dc A-Za-z0-9 | head -c $1
+echo ''
+echo $reset

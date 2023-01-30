@@ -1,0 +1,12 @@
+#!/bin/sh
+
+cal() {
+  declare exe=$(which ncal)
+  if [[ -z "$exe" ]]; then
+    cal $*
+    return $?
+  fi
+  $exe -M -w $*
+}
+
+echo $cal

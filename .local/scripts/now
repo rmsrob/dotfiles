@@ -1,0 +1,19 @@
+#!/bin/sh
+
+date "+%A, %B %e, %Y, %l:%M:%S%p"
+
+# now () {
+#   return echo "$1" $(date "+%A, %B %e, %Y, %l:%M:%S%p")
+# }
+
+# weekday () {
+#   echo $(lower $(date +"%A"))
+# }
+
+# month () {
+#   echo $(lower $(date +"%B"))
+# }
+
+# year () {
+#   echo $(lower $(date +"%Y"))
+# }

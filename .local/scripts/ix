@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "First argument should be the path to a file,"
+  echo "that you want to share on http://ix.io"
+fi
+
+cat $1 | curl -F 'f:1=<-' ix.io

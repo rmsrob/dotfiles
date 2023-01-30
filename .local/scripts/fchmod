@@ -1,0 +1,22 @@
+#!/bin/sh
+
+#######################################
+# Inside this directory
+# Change all files to 644 access right
+# Change all directories to 755 acces right
+
+fchmod() {
+    declare i
+    declare type="$1"
+    shift
+    declare righ="$2"
+    shift
+    declare files=("$@")
+    if [[ -z "$files" ]]; then
+        usageln 'fchmod <f(file)/d(direcory)> <644>'
+        return 1
+    fi
+    find . -type "$1" -exec chmod "$2" {} \;
+}
+
+fchmod $*

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+GHR_DIR="github.com/ConcaveFi/concave-api"
+SESSION="CONCAVE_API"
+NAME="concave-api👺🚀"
+
+if tmux has-session -t $SESSION 2>/dev/null; then
+  # If the session already exists, attach to it
+  tmux -u attach-session -t $SESSION -d
+else
+  # Create a new session
+  tmux -u new-window -n $NAME
+  tmux -u new-session -s $SESSION -n $NAME -d
+
+  # Split the window into panes
+  tmux split-window -v -p 75
+  tmux select-pane -t 0
+  tmux split-window -h -p 90
+
+  # Set the hasura pane
+  tmux select-pane -t 0
+  tmux send-keys "cd $REPOS/$GHR_DIR/hasura" Enter
+  tmux send-keys "c" Enter
+  tmux send-keys "make reload"
+
+  # Set the docker pane
+  tmux select-pane -t 1
+  tmux send-keys "cd $REPOS/$GHR_DIR/hasura" Enter
+  tmux send-keys "if [ -z \"$(docker ps -q -f name=concave_hasura_)\" ]; then docker-compose up -d; fi" Enter
+  tmux send-keys "lzd" Enter
+
+  # Set Server pane
+  tmux select-pane -t 2
+  tmux send-keys "cd $REPOS/$GHR_DIR" Enter
+  tmux send-keys "c" Enter
+  tmux send-keys "code ." Enter
+  tmux send-keys "ll" Enter
+
+  tmux -u attach-session -t $SESSION -d
+fi

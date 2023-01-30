@@ -5,24 +5,24 @@
 
 case $- in
 *i*) ;;
-*) return ;; 
+*) return ;;
 esac
 
 # ------------------------- platform & os detection -------------------------
 
-[ -z "$OS" ] && export OS=`uname`
+[ -z "$OS" ] && export OS=$(uname)
 case "$OS" in
-  Linux)          export PLATFORM=Linux ;;
-  *indows*)       export PLATFORM=Windows ;;
-  FreeBSD|Darwin) export PLATFORM=Mac ;;
-  *)              export PLATFORM=unknown ;;
+Linux) export PLATFORM=Linux ;;
+*indows*) export PLATFORM=Windows ;;
+FreeBSD | Darwin) export PLATFORM=Mac ;;
+*) export PLATFORM=unknown ;;
 esac
 
 export PLATFORM OS
 
 # ---------------------- local utility functions ---------------------
 
-_have()      { type "$1" &>/dev/null; }
+_have() { type "$1" &>/dev/null; }
 _source_if() { [[ -r "$1" ]] && source "$1"; }
 # _dir_exist() if [[ ! -d "$1" ]] then echo Hey $USER should you create "$1" fi
 
@@ -35,7 +35,7 @@ export REPOS="$HOME/Repos"
 export GHDIR="$REPOS/github.com"
 export GHREPOS="$REPOS/github.com/$GITUSER"
 export DOTFILES="$GHREPOS/dotfiles"
-export SCRIPTS="$DOTFILES/scripts"
+export SCRIPTS="$DOTFILES/.local/scripts"
 export DESKTOP="$HOME/Desktop"
 export DOCUMENTS="$HOME/Documents"
 export DOWNLOADS="$HOME/Downloads"
@@ -101,8 +101,8 @@ export normalbg=$'\033[49m'
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 if [[ -x /usr/bin/lesspipe ]]; then
-  export LESSOPEN="| /usr/bin/lesspipe %s";
-  export LESSCLOSE="/usr/bin/lesspipe %s %s";
+  export LESSOPEN="| /usr/bin/lesspipe %s"
+  export LESSCLOSE="/usr/bin/lesspipe %s %s"
 fi
 
 # ----------------------------- dircolors ----------------------------
@@ -123,10 +123,10 @@ fi
 
 export LESS_TERMCAP_mb="[35m" # magenta
 export LESS_TERMCAP_md="[33m" # yellow
-export LESS_TERMCAP_me="" # "0m"
-export LESS_TERMCAP_se="" # "0m"
+export LESS_TERMCAP_me=""      # "0m"
+export LESS_TERMCAP_se=""      # "0m"
 export LESS_TERMCAP_so="[34m" # blue
-export LESS_TERMCAP_ue="" # "0m"
+export LESS_TERMCAP_ue=""      # "0m"
 export LESS_TERMCAP_us="[4m"  # underline
 
 export NNN_COLORS='#0a1b2c3d;1234'
@@ -143,13 +143,13 @@ export JQ_field="38;5;244"
 
 export JQ_COLORS="$JQ_null:$JQ_false:$JQ_true:$JQ_num:$JQ_string:$JQ_arr:$JQ_obj:$JQ_field"
 
-EXT_COLOR () { echo -ne "\[\033[38;5;$1m\]"; }
+EXT_COLOR() { echo -ne "\[\033[38;5;$1m\]"; }
 
-rgb () {
+rgb() {
   echo -n $'\033[38;2;'$1';'$2';'$3'm'
 } && export -f rgb
 
-rgbg () {
+rgbg() {
   echo -n $'\033[48;2;'$1';'$2';'$3'm'
 } && export -f rgb
 
@@ -157,7 +157,7 @@ rgbg () {
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # WTF:FIX npx asking me to install the thing! if npm -v > 7
 export npm_config_yes=true
@@ -194,7 +194,7 @@ pathprepend \
   "$GHREPOS/cmd-"* \
   "$RUSTUP" \
   "$FOUDRYBIN" \
-  "$SCRIPTS" 
+  "$SCRIPTS"
 
 pathappend \
   /usr/local/opt/coreutils/libexec/gnubin \
@@ -249,30 +249,30 @@ shopt -s histappend
 #                 (keeping in bashrc for portability)
 
 export no_color="\[\033[0m\]"
-export pink="`EXT_COLOR 198`"
-export blackish="`EXT_COLOR 238`"
-export greyish="`EXT_COLOR 245`"
-export cyan="`EXT_COLOR 51`"
-export lime="`EXT_COLOR 82`"
-export yellow="`EXT_COLOR 227`"
-export white="`EXT_COLOR 249`"
-export orange="`EXT_COLOR 202`"
+export pink="$(EXT_COLOR 198)"
+export blackish="$(EXT_COLOR 238)"
+export greyish="$(EXT_COLOR 245)"
+export cyan="$(EXT_COLOR 51)"
+export lime="$(EXT_COLOR 82)"
+export yellow="$(EXT_COLOR 227)"
+export white="$(EXT_COLOR 249)"
+export orange="$(EXT_COLOR 202)"
 
 __ps1() {
   PS_USER="$blackish\u$no_color"
   PS_AT="$greyish@$no_color"
   PS_XHOST="0x$((0x$(sha1sum <<<$(hostname))0))"
-  PS_HEXHOST="$blackish${PS_XHOST::4}...${PS_XHOST: 0-5}$no_color"
+  PS_HEXHOST="$blackish${PS_XHOST::4}...${PS_XHOST:0-5}$no_color"
   PS_DIR="$cyan\w$no_color"
 
   function is_git_repository {
-    git branch > /dev/null 2>&1
+    git branch >/dev/null 2>&1
   }
 
   function set_git_branch {
-    git_status="$(git status 2> /dev/null)"
+    git_status="$(git status 2>/dev/null)"
 
-    if [[ ${git_status} =~ "nothing to commit, working tree clean" ]]; then 
+    if [[ ${git_status} =~ "nothing to commit, working tree clean" ]]; then
       state="${lime}"
     elif [[ ${git_status} =~ "Changes to be committed" ]]; then
       state="${yellow}"
@@ -304,19 +304,19 @@ __ps1() {
     PS_BRANCH="${state}(${branch}) ${remote}${no_color} "
   }
 
-  if is_git_repository ; then
-      set_git_branch
+  if is_git_repository; then
+    set_git_branch
   else
-      PS_BRANCH="$cyan.$no_color"
+    PS_BRANCH="$cyan.$no_color"
   fi
 
-  if [ "$(whoami)" == "root" ] ; then
-    PS_SYMBOL="$pink# $no_color";
+  if [ "$(whoami)" == "root" ]; then
+    PS_SYMBOL="$pink# $no_color"
   else
-    PS_SYMBOL="$lime$ $no_color";
+    PS_SYMBOL="$lime$ $no_color"
   fi
-  
-  if [[ $PLATFORM = Linux ]] ; then
+
+  if [[ $PLATFORM = Linux ]]; then
     PS_ICOS="$orange$no_color"
   elif [[ $PLATFORM = Mac ]]; then
     PS_ICOS="$white  $no_color"
@@ -333,7 +333,7 @@ PROMPT_COMMAND="__ps1"
 
 # ----------------------------- keyboard -----------------------------
 
-_have setxkbmap && test -n "$DISPLAY" && \
+_have setxkbmap && test -n "$DISPLAY" &&
   setxkbmap -option caps:escape &>/dev/null
 
 # Cycle through history based on characters already typed on the line ???
@@ -416,7 +416,7 @@ _have docker-compose && alias dc="docker-compose"
 
 # ----------------------------- functions ----------------------------
 
-gpom () {
+gpom() {
   branch_name=$(git branch --show-current)
   if [ "$branch_name" == "master" ] || [ "$branch_name" == "main" ]; then
     git push origin $branch_name
@@ -425,7 +425,7 @@ gpom () {
   fi
 }
 
-gpod () {
+gpod() {
   branch_name=$(git branch --show-current)
   if [ "$branch_name" == "develop" ] || [ "$branch_name" == "dev" ]; then
     git push origin $branch_name
@@ -434,11 +434,11 @@ gpod () {
   fi
 }
 
-now () {
+now() {
   return echo "$1" $(date "+%A, %B %e, %Y, %l:%M:%S%p")
 }
 
-epoch () {
+epoch() {
   date +%s
 }
 
@@ -447,37 +447,37 @@ epoch () {
 # preferable to destroying what was previously there. Can be used to roll
 # back changes transactionally.
 
-preserve () {
+preserve() {
   declare target="${1%/}"
   [[ ! -e "$target" ]] && return 1
   declare new="$target.preserved.$(tstamp)"
-  mv "$target" "$new" 
-  echo "$new" 
+  mv "$target" "$new"
+  echo "$new"
 }
 
 # Lists all the preserved files by matching the .preserved<tstamp> suffix.
 # If passed an argument limits to only those preserved files matching that
 # name (prefix).
 
-lspreserved () {
-  declare -a files
-  if [[ -z "$1" ]]; then
-      files=(*.preserved.[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])
-  else
-      files=("$1".preserved.[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])
-  fi
-  for i in "${files[@]}"; do
-    echo "$i"
-  done
-}
+# lspreserved () {
+#   declare -a pfiles
+#   if [[ -z "$1" ]]; then
+#       pfiles=(*.preserved.[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])
+#   else
+#       pfiles=("$1".preserved.[2-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])
+#   fi
+#   for i in "${files[@]}"; do
+#     echo "$i"
+#   done
+# }
 
-lastpreserved () {
-  mapfile -t  a < <(lspreserved "$1")
+lastpreserved() {
+  mapfile -t a < <(lspreserved "$1")
   declare n=${#a[@]}
-  echo "${a[n-1]}"
+  echo "${a[n - 1]}"
 }
 
-rmpreserved () {
+rmpreserved() {
   while IFS= read -r line; do
     rm -rf "$line"
   done < <(lspreserved)
@@ -485,7 +485,7 @@ rmpreserved () {
 
 # Undos the last preserve performed on the given target.
 
-unpreserve () {
+unpreserve() {
   declare last=$(lastpreserved "$*")
   [[ -z "$last" ]] && return 1
   mv "$last" "${last%.preserved*}"
@@ -514,7 +514,7 @@ envx() {
     value=${line#*=}
     [[ -z "${name}" || $name =~ ^# ]] && continue
     export "$name"="$value"
-  done < "$envfile"
+  done <"$envfile"
 } && export -f envx
 
 [[ -e "$DOTFILES/.env" ]] && envx "$DOTFILES/.env"

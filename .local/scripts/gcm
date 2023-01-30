@@ -1,0 +1,68 @@
+#!/bin/bash
+
+if ! havecmd jq; then
+  telln '*Need to install `jq`*.'
+  exit 1
+fi
+
+if [ ! -d .git ]; then
+  echo "Error: Not a git repository."
+  exit 1
+fi
+
+# source $hOME/.env or envx
+API_ENDPOINT="https://api.openai.com/v1/completions"
+MODEL=text-davinci-003
+MAX_TOKEN=1500
+TEMPERATURE=0
+day_of_week=$(date +%u)
+
+# If we are on sunday and tuesday
+if [ $day_of_week == 0 ] || [ $day_of_week == 3 ]; then
+  secret_key_=$oai_api_key_2_
+  ta_="Richard Stallman"
+# or on monday and friday
+elif [ $day_of_week == 6 ] || [ $day_of_week == 5 ]; then
+  secret_key_=$oai_api_key_3_
+  ta_="John Carmack"
+# or on monday and saturday
+elif [ $day_of_week == 1 ]; then
+  secret_key_=$oai_api_key_3_
+  ta_="Vitalik Buterin"
+else # so for wednesday, thursday
+  secret_key_=$oai_api_key_3_
+  ta_="Linus Torvalds"
+fi
+
+if ! git diff-index --quiet HEAD; then
+  for file in $(git diff-index --name-only HEAD); do
+    echo -e "\033[31m$file\033[0m"
+    # get_git_head=$(git diff HEAD^!)
+    get_git_head=$(git diff -U0 $file) # | perl -n -e '/^([+-])/ && s/^[+-]\s*//g && print')
+    echo -e "\033[33m$get_git_head\033[0m"
+    prompt_oai="in max 10 words describe in the style of $ta_ this $get_git_head"
+    echo -e "\033[96mmsg from: $ta_\033[0m"
+    data=$(printf '%q' "$prompt_oai")
+    echo "$data"
+    RESPONSE=$(curl --silent -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $secret_key_" -d "{\"model\": \"$MODEL\", \"prompt\": \"$data\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT)
+    HTTP_CODE="${RESPONSE: -3}"
+    if [ $HTTP_CODE -ne 200 ]; then
+      echo "Error: Request failed with status code $HTTP_CODE"
+      exit 1
+    fi
+    echo "$RESPONSE"
+    RESPONSE="${RESPONSE:0:${#RESPONSE}-4}"
+    RESPONSE="$(echo $RESPONSE | jq -r '.choices[].text' | tr -d '\n')"
+    read -p "Use '$(echo -e "\033[1;32m $RESPONSE \033[0m")' as git commit message? $(echo -e "[\033[1my\033[0m/n]"): " choice
+    if [ "$choice" == "y" ] || [ -z "$choice" ]; then
+      git add "$file"
+      git commit -m "$RESPONSE"
+    else
+      echo "Exiting script."
+      exit
+    fi
+  done
+else
+  echo "No files with changes."
+  exit 1
+fi

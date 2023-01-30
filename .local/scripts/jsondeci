@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# Check if an argument was provided
+if [ $# -lt 2 ]; then
+  echo "Error: Provide the file name and number of decimal places"
+  exit 1
+fi
+
+# Args
+json_file=$1
+decimal_places=$2
+
+# Check if the file exist or not
+if [ ! -f "$json_file" ]; then
+  echo "Error: $json_file is not a valid file"
+  exit 1
+fi
+
+# Check if the file is a JSON file
+if ! head -n 1 "$json_file" | grep -q '^\s*{'; then
+  echo "Error: $json_file is not a JSON file"
+  exit 1
+fi
+
+# Create a backup of the JSON file
+bkp_json_file="$json_file"_bkp.json
+if [ -f $bkp_json_file ]; then
+  rm -f $bkp_json_file
+fi
+cp $json_file $bkp_json_file
+
+perl -i -pe "s/([0-9]+\.[0-9]{$decimal_places})([0-9]+)/sprintf(\"%.${decimal_places}f\", \$1)/eg" $json_file
+
+# Print the modified JSON file using jq
+jq '.' $json_file

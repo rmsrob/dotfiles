@@ -1,3 +1,0 @@
-#!/bin/sh
-stat -c "%N = %a OR %A FOR %U:%G" $1
-

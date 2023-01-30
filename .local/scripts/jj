@@ -1,0 +1,3 @@
+#!/bin/bash
+
+emoj -c -s 2 "$*"

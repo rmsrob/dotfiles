@@ -1,0 +1,3 @@
+#!/bin/sh
+
+cp -iv $1{,.bak}

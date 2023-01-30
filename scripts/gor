@@ -1,5 +1,0 @@
-#!/bin/sh
-if [ -e "cmd" ]; then
-  exec go run cmd/main.go
-fi
-exec go run main.go

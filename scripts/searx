@@ -1,2 +1,0 @@
-#!/bin/sh
-lynx "https://searx.pofilo.fr/search?q=$*&amp;categories=general&amp;language=en-US&amp;format=rss"

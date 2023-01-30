@@ -1,7 +1,0 @@
-#!/bin/sh
-
-#######################################
-# make executable this file
-
-chmod u+x $1
-echo "$1 is executable!"

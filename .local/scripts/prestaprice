@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if ! havecmd pup; then
+  telln '*Need to install `the Go lib pup`*.'
+  exit 1
+fi
+
+PRESTA="curl -sL $1"
+NAME=$($PRESTA | pup meta[property='og:title'] attr{content})
+PRICEHT=$($PRESTA | pup meta[property='product:pretax_price:amount'] attr{content})
+CURRENCYHT=$($PRESTA | pup meta[property='product:pretax_price:currency'] attr{content})
+PRICETTC=$($PRESTA | pup meta[property='product:price:amount'] attr{content})
+CURRENCYTTC=$($PRESTA | pup meta[property='product:price:currency'] attr{content})
+
+echo "$NAME $PRICETTC $CURRENCYTTC"
+echo ""
+echo "HT: $PRICEHT $CURRENCYHT"
+echo "TTC: $PRICETTC $CURRENCYTTC"

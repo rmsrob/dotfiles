@@ -1,4 +1,0 @@
-#!/bin/sh
-# https://linux4one.com/how-to-list-installed-packages-on-debian/
-dpkg-query --showformat=${Package} version: ${Version} From: ${Provides}\n${Status}\n --show $1
-

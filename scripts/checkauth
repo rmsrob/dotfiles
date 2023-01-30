@@ -1,8 +1,0 @@
-#!/bin/sh
-
-#######################################
-# Filter strange auth on an instance
-# from /var/log/auth.log
-
-egrep --color=always -i 'Bye Bye|Failed password|authentication failure|no matching key exchange method found' /var/log/auth.log | wc -l
-

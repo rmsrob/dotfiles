@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [[ $PLATFORM = Linux ]]; then
+  sudo apt update && sudo apt upgrade
+fi
+
+if [[ $PLATFORM = Mac ]]; then
+  softwareupdate -i -a
+fi

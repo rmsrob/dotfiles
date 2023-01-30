@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if ! havecmd node; then
+  echo '*Need to install `NodeJs`*.'
+  exit 1
+fi
+
+npx npkill -gb -s size -c red

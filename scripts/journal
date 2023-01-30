@@ -1,6 +1,0 @@
-#!/bin/sh
-
-cd $GHREPOS/blackbook
-newpage "vim on me"
-VIMTODAY=`ls -t | head -n1`
-$EDITOR $VIMTODAY

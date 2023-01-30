@@ -1,8 +1,0 @@
-#!/bin/sh
-
-# declare -r ared=$((RANDOM%256))
-# declare -r agreen=$((RANDOM%256))
-# declare -r ablue=$((RANDOM%256))
-# echo -ei "\033[38;2;$ared;$agreen;${ablue}m"
-
-echo -e "\e[3$(( $RANDOM * 6 / 32767 + 1 ))m"

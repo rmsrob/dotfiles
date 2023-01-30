@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if ! which docker 2>&1 >/dev/null; then
+    echo "Please install 'docker' first"
+    exit 1
+fi
+
+docker run -it --rm dirsearch $1 -e *

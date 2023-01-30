@@ -1,0 +1,11 @@
+#!/bin/sh
+
+tstampfile() {
+  declare path="$1"
+  declare pre=${path%.*}
+  declare suf=${path##*.}
+  echo -n $pre.$(tstamp)
+  [[ "$pre" != "$suf" ]] && echo .$suf
+}
+
+echo $tstampfile

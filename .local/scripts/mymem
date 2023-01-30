@@ -1,0 +1,6 @@
+#!/bin/bash
+export MYRAM=$(free -h | awk '/^Mem:/ {print $3 "/" $2}')
+export MYSWAP=$(free -h | awk '/^Swap:/ {print $3 "/" $2}')
+export MYBUFFER=$(free -h | awk '/^Mem:/ {print $6}')
+
+echo "Mem: ${MYRAM} Swap: ${MYSWAP} Buffer: ${MYBUFFER}" && ps axch -o cmd:15,%mem --sort=-%mem | head

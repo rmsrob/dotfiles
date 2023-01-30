@@ -1,0 +1,50 @@
+#!/bin/bash
+
+if ! havecmd jq; then
+  telln '*Need to install `jq`*.'
+  exit 1
+fi
+
+file="$1"
+case "$file" in
+*.md | *.markdown | *.txt | *.html) ;;
+
+*)
+  echo "The first argument is not text file."
+  exit 1
+  ;;
+esac
+
+# source $hOME/.env or envx
+API_ENDPOINT="https://api.openai.com/v1/completions"
+MODEL=text-davinci-003
+MAX_TOKEN=1500
+TEMPERATURE=0
+day_of_week=$(date +%u)
+prompt="fix misspelling and grammar but keep the markdown and html and return me the whole file corrected"
+
+# If we are on sunday and tuesday
+if [ $day_of_week == 0 ] || [ $day_of_week == 3 ]; then
+  secret_key_=$oai_api_key_1_
+# or on monday and friday
+elif [ $day_of_week == 1 ] || [ $day_of_week == 5 ]; then
+  secret_key_=$oai_api_key_2_
+else # so for wednesday, thursday, saturday
+  secret_key_=$oai_api_key_3_
+fi
+
+TEMP_DIR=$(mktemp -d -t foobar.XXXXX)
+touch "$TEMP_DIR/$file"
+cat <"$file" >>"$TEMP_DIR/$file"
+draftmarkdown=$(cat "$TEMP_DIR/$file")
+prompt_oais="$prompt: $draftmarkdown"
+data=$(printf '%q' "$prompt_oais")
+echo "$data"
+
+RESPONSE=$(curl --silent -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $secret_key_" -d "{\"model\": \"$MODEL\", \"prompt\": \"$data\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT)
+HTTP_CODE="${RESPONSE: -3}"
+RESPONSE="${RESPONSE:0:${#RESPONSE}-4}"
+RESPONSE="$(echo $RESPONSE | jq -r '.choices[].text')"
+echo "$RESPONSE"
+touch "OAI_$file"
+echo "$RESPONSE" >>"OAI_$file"
