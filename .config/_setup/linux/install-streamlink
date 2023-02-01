@@ -1,0 +1,6 @@
+#!/bin/sh
+
+sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt update
+sudo apt install streamlink
+#add plugin /config/streamlink/plugin

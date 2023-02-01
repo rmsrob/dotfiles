@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+type jq &>/dev/null || {
+    echo "jq is not installed. Please install it before running this script."
+    exit 1
+}
+
+# source $HOME/.env or envx
+SF_APIKEY="$server_substream_API_KEY"
+FH_API_TOKEN=$(curl https://auth.streamingfast.io/v1/auth/issue -s --data-binary '{"api_key":"'$SF_APIKEY'"}' | jq -r .token)
+
+export STREAMINGFAST_KEY="$SF_APIKEY"
+export FIREHOSE_API_TOKEN="$FH_API_TOKEN"
+export SUBSTREAMS_API_TOKEN="$FH_API_TOKEN"

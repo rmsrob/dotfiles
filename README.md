@@ -1,27 +1,18 @@
 # DOTFILES
 
-> Bash first on Linux and Mac
+## Dots for Linux and Mac
 
-**WARNING I'M DUMB WARNING**
+> **Warning** **from chatGPT**
+>
+> *It is always recommended to read and fully understand any script before executing it on your machine, as it can have unintended consequences or security implications. It's also a good practice to ensure that you trust the source of the script and have taken any necessary precautions to protect your system.*
 
-> Tips: 
-- work best with bash and not zsh
-- `pull` the dotfiles repo inside `/home/<user>/Repos/github.com/<gh-user>/dotfiles`
+> **Note**
+> Copie the dotfiles repo inside `/home/$USER/Repos/github.com/<gh-user>/dotfiles` work best if your `$USER` is the same a your github username.
 
-> Then yu cann aply:
+## Load all dots:
+
 ```sh
-chmod +x $DOTFILES/.local/scripts/*
-rm ~/.bashrc
-rm ~/.profile
-ln -sv $DOTFILES/.bashrc $HOME/.bashrc
-ln -sv $DOTFILES/.profile $HOME/.profile
-ln -sv $DOTFILES/.inputrc $HOME/.inputrc
-ln -sv $DOTFILES/.dircolors $HOME/.dircolors
-ln -sv $DOTFILES/.vim/vim.vim $HOME/.vimrc
-ln -sv $DOTFILES/.tmux.conf $HOME/.tmux.conf
-ln -nsvf $DOTFILES/.vim $HOME
-ln -nsvf $DOTFILES/.config/alacritty $HOME/.config
-ln -nsvf $DOTFILES/.config/lynx $HOME/.config
-ln -nsvf $DOTFILES/.config/kitty $HOME/.config
-ln -nsvf $DOTFILES/shared/nvim $HOME/.config
+cd /home/$USER/Repos/github.com/$USER/dotfiles
+chmod +x bootstrap.sh
+bootstrap.sh
 ```
