@@ -7,7 +7,7 @@ rm .DS_Store
 forge init
 
 example_readme >README.md
-lcagpl >LICENSE
+example_lc_agpl >LICENSE
 example_gitignore >.gitignore
 
 perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" LICENSE
