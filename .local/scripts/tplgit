@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+REPOSITORY="${PWD##*/}"
+ROOTDIR=$(echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//')
+
+example_readme >README.md
+example_lc_apache >LICENSE
+example_gitignore >.gitignore
+
+perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" LICENSE
+perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" README.md
+perl -i -pe "s/%REPOSITORY/$REPOSITORY/g" README.md
+
+git init && git add .

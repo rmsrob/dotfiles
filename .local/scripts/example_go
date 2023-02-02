@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+cat <<'EOM'
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Let's Go!")
+}
+EOM

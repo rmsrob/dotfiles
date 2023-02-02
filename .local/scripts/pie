@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage args: Find Replace File"
+    exit 1
+fi
+
+perl -i -pe "s/$1/$2/g" $3

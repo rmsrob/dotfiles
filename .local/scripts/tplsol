@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+REPOSITORY="${PWD##*/}"
+ROOTDIR=$(echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//')
+
+rm .DS_Store
+forge init
+
+example_readme >README.md
+lcagpl >LICENSE
+example_gitignore >.gitignore
+
+perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" LICENSE
+perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" README.md
+perl -i -pe "s/%REPOSITORY/$REPOSITORY/g" README.md
+
+echo "# Auto detect text files and perform LF normalization
+* text=auto
+.gas-snapshot linguist-language=Julia
+*.sol linguist-language=Solidity" >.gitattributes
+
+git add . && git commit -m "init"
+
+libs=(transmissions11/solmate Sol-DAO/solbase OpenZeppelin/openzeppelin-contracts)
+selected=()
+while true; do
+    read -r -p "$(echo -e "\n\033[96m Do you want to install some libraries? [y/\033[1m\033[1;96mn\033[0m\033[96m]\033[0m: ")" response
+    if [[ "$response" =~ ^(yes|y)$ ]]; then
+        echo -e "\n\033[96m Choices can be space separate\033[0m"
+        select lib in "${libs[@]}"; do
+            for choice in $REPLY; do
+                selected+=(${libs[choice - 1]})
+            done
+            [[ $selected ]] && break 2
+        done
+    else
+        break
+    fi
+done
+
+for lib in "${selected[@]}"; do
+    echo "Installing $lib ..."
+    forge install "$lib"
+done
+echo $(forge remappings) | tr ' ' '\n' >remappings.txt
