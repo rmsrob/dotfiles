@@ -42,4 +42,5 @@ for lib in "${selected[@]}"; do
     echo "Installing $lib ..."
     forge install "$lib"
 done
-echo $(forge remappings) | tr ' ' '\n' >remappings.txt
+forge remappings >remappings.txt
+cp $SCRIPTS/example_makefile_forge Makefile

@@ -50,6 +50,7 @@ yarn-error.log*
 .vscode/**
 
 # Test binary, built with `go test -c`
+/target
 *.test
 __debug_bin
 EOM
