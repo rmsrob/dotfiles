@@ -28,6 +28,7 @@ vendor/
 
 # misc
 docs/
+.gonvim
 .DS_Store
 .env
 .env.local
@@ -51,6 +52,8 @@ yarn-error.log*
 
 # Test binary, built with `go test -c`
 /target
+buf.gen.yaml
+*.spkg
 *.test
 __debug_bin
 EOM

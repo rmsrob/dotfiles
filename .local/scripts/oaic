@@ -15,16 +15,7 @@ MODEL=text-davinci-003
 MAX_TOKEN=1500
 TEMPERATURE=0
 day_of_week=$(date +%u)
-
-# If we are on sunday and tuesday
-if [ $day_of_week == 0 ] || [ $day_of_week == 3 ]; then
-  secret_key_=$oai_api_key_1_
-# or on monday and friday
-elif [ $day_of_week == 1 ] || [ $day_of_week == 5 ]; then
-  secret_key_=$oai_api_key_2_
-else # so for wednesday, thursday, saturday
-  secret_key_=$oai_api_key_3_
-fi
+secret_key_=$(oaikey)
 
 code=""
 data="$@"

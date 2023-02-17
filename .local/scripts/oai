@@ -17,19 +17,12 @@ type jq &>/dev/null || {
   exit 1
 }
 
-# source $HOME/.env or envx
 API_ENDPOINT="https://api.openai.com/v1/completions"
 MODEL=text-davinci-003
 MAX_TOKEN=1500
 TEMPERATURE=0
 day_of_week=$(date +%u)
-
-secret_key_array=($oai_api_key_1_ $oai_api_key_2_ $oai_api_key_3_ $oai_api_key_4_)
-random_apikey() {
-  local secret_key_array=("$@")
-  echo "$(echo "${secret_key_array[@]}" | tr ' ' '\n' | shuf -n1)"
-}
-secret_key_=$(random_apikey "${secret_key_array[@]}")
+secret_key_=$(oaikey)
 
 RESPONSE=$(curl --silent -w "%{http_code}" -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $secret_key_" -d "{\"model\": \"$MODEL\", \"prompt\": \"$@\", \"max_tokens\": $MAX_TOKEN, \"temperature\": $TEMPERATURE}" $API_ENDPOINT)
 HTTP_CODE="${RESPONSE: -3}"
@@ -38,15 +31,17 @@ RESPONSE="$(echo $RESPONSE | jq -r '.choices[].text')"
 
 gptChat() {
   if [ ${#RESPONSE} -gt 120 ]; then
-    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<<$RESPONSE)
+    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<<"$RESPONSE")
     echo -e "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] \n$RESP"
     echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >>$SCRIPTS/openai.log
     echo "[OPENAI] \n\t$RESP\n" >>$SCRIPTS/openai.log
+    # say "$RESP"
   else
-    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<<$RESPONSE)
+    RESP=$(perl -pe 's/^"\\n//; s/\"$//; s/\\n//g' <<<"$RESPONSE")
     echo -e "\n[\033[38;5;201mOPEN\033[0m\033[38;5;118mAI\033[0m] $RESP"
     echo "[$(TZ="GMT" date +"%Y%m%d%H%M%S") ME] $@" >>$SCRIPTS/openai.log
     echo "[OPENAI] $RESP\n" >>$SCRIPTS/openai.log
+    # say "$RESP"
   fi
 }
 

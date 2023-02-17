@@ -22,16 +22,7 @@ MAX_TOKEN=1500
 TEMPERATURE=0
 day_of_week=$(date +%u)
 prompt="fix misspelling and grammar but keep the markdown and html and return me the whole file corrected"
-
-# If we are on sunday and tuesday
-if [ $day_of_week == 0 ] || [ $day_of_week == 3 ]; then
-  secret_key_=$oai_api_key_1_
-# or on monday and friday
-elif [ $day_of_week == 1 ] || [ $day_of_week == 5 ]; then
-  secret_key_=$oai_api_key_2_
-else # so for wednesday, thursday, saturday
-  secret_key_=$oai_api_key_3_
-fi
+secret_key_=$(oaikey)
 
 TEMP_DIR=$(mktemp -d -t foobar.XXXXX)
 touch "$TEMP_DIR/$file"

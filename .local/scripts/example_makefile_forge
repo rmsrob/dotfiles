@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 ifneq (,$(wildcard ./.env))
     include .env
     export
@@ -22,16 +24,23 @@ init: cmd-exists-forge
 	git submodule update --init --recursive
 	git update-index --assume-unchanged playground/*
 	forge install
+
 build: cmd-exists-forge
 	forge build
+
 clean: cmd-exists-forge
 	forge clean
+
 rebuild: clean build
+
 test: cmd-exists-forge
 	forge test -vv
+
 test-gas: cmd-exists-forge
 	forge test -vv --gas-report
+
 trace: cmd-exists-forge
-	forge test -vvvv 
+	forge test -vvvv
+
 remappings: cmd-exists-forge
 	forge remappings > remappings.txt

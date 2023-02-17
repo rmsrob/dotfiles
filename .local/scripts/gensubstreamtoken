@@ -12,3 +12,5 @@ FH_API_TOKEN=$(curl https://auth.streamingfast.io/v1/auth/issue -s --data-binary
 export STREAMINGFAST_KEY="$SF_APIKEY"
 export FIREHOSE_API_TOKEN="$FH_API_TOKEN"
 export SUBSTREAMS_API_TOKEN="$FH_API_TOKEN"
+
+echo "$SUBSTREAMS_API_TOKEN"

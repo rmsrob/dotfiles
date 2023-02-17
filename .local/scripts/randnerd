@@ -1,0 +1,8 @@
+#!/bin/bash
+
+nerd=("Richard-Stallman" "John-Carmack" "Vitalik-Buterin" "Linus-Torvalds")
+random_nerd() {
+    local nerd=("$@")
+    echo "$(echo "${nerd[@]}" | tr ' ' '\n' | shuf -n1)"
+}
+echo $(random_nerd "${nerd[@]}")

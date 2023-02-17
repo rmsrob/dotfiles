@@ -11,7 +11,7 @@
 
 ## Load all dots:
 
-```sh
+```bash
 cd /home/$USER/Repos/github.com/$USER/dotfiles
 chmod +x bootstrap.sh
 bootstrap.sh

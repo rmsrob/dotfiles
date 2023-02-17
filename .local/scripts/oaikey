@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# source $HOME/.env or envx
+secret_key_array=($oai_api_key_1_ $oai_api_key_2_ $oai_api_key_3_ $oai_api_key_4_)
+random_apikey() {
+    local secret_key_array=("$@")
+    echo "$(echo "${secret_key_array[@]}" | tr ' ' '\n' | shuf -n1)"
+}
+echo $(random_apikey "${secret_key_array[@]}")

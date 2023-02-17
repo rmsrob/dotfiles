@@ -1,0 +1,36 @@
+#!/bin/bash
+
+[[ -z $1 ]] && {
+    echo "Usage : Give a package name to get the latest version of the crate of a package and add as a dependency"
+    exit 1
+}
+type jq &>/dev/null || {
+    echo "jq is not installed. Please install it before running this script."
+    exit 1
+}
+
+crate_name="$1"
+crate_version=$(curl --silent https://crates.io/api/v1/crates/$crate_name | grep -o '"max_version":"[^"]*"' | head -1 | cut -d'"' -f4)
+
+# echo "$crate_version"
+
+# Check if the line "substreams = *" exists in the dependencies section of the Cargo.toml file
+if grep -q "^\[dependencies\].*$crate_name.*=.*\".*\"" Cargo.toml; then
+    # Replace the current version of the crate with the latest version
+    sed -i "s/^$crate_name.*/$crate_name = \"$crate_version\"/" Cargo.toml
+else
+    # Add the crate as a new dependency to the Cargo.toml file
+    echo "$crate_name = \"$crate_version\"" >>Cargo.toml
+fi
+
+# if grep -q "^\[dependencies\].*$crate_name.*=.*\".*\"" Cargo.toml; then
+#     # Replace the current version of the crate with the latest version
+#     perl -i -pe "s/^(\[dependencies\].*$crate_name.*=).*/\$1 \"$crate_version\"/" Cargo.toml
+# else
+#     # Add the crate as a new dependency to the Cargo.toml file
+#     echo "[dependencies]" >>Cargo.toml
+#     echo "$crate_name = \"$crate_version\"" >>Cargo.toml
+# fi
+
+# Update the dependencies in the project
+cargo update

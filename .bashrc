@@ -45,6 +45,7 @@ export PICTURES="$HOME/Pictures"
 export MUSIC="$HOME/Music"
 export VIDEOS="$HOME/Videos"
 export VMS="$HOME/Vms"
+export NVIM_DIR="$HOME/.nvim" # testing nightly
 export TERM=xterm-256color
 export HRULEWIDTH=73
 export EDITOR=vi
@@ -194,6 +195,7 @@ pathprepend \
   "$GHREPOS/cmd-"* \
   "$RUSTUP" \
   "$FOUDRYBIN" \
+  "$NVIM_DIR/bin" \
   "$SCRIPTS"
 
 pathappend \
@@ -503,6 +505,9 @@ _have helm && . <(helm completion bash)
 # _have docker && _source_if "$HOME/.local/share/docker/completion"
 _have docker-compose && complete -F _docker_compose dc
 _have brew && _source_if "/opt/homebrew/etc/profile.d/bash_completion.sh"
+_have forge && . <(forge completions bash)
+_have cast && . <(cast completions bash)
+_have anvil && . <(anvil completions bash)
 
 # -------------------- personalized configuration --------------------
 
