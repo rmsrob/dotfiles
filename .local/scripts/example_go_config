@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+cat <<'EOM'
+package config
+
+import (
+	"log"
+
+	"github.com/spf13/viper"
+)
+
+type Config struct {
+	ENV
+	YAML
+	*USE
+}
+
+type ENV struct {
+	ALCHEMY_MAINNET string `mapstructure:"ALCHEMY_MAINNET"`
+	ALCHEMY_GOERLI  string `mapstructure:"ALCHEMY_GOERLI"`
+	INFURA_KEY      string `mapstructure:"INFURA_KEY"`
+}
+
+type YAML struct {
+	BLOCKCHAIN string `mapstructure:"BLOCKCHAIN"`
+}
+
+type USE struct {
+	BLOCKCHAIN  string
+	ALCHEMY_KEY string
+}
+
+func Params() Config {
+
+	env := ENV{}
+	viper.SetConfigFile(".env")
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Fatal("cannot read dotenv config")
+	}
+
+	err = viper.Unmarshal(&env)
+	if err != nil {
+		log.Fatal("environment cant be loaded: ", err)
+	}
+
+	yaml := YAML{}
+	viper.SetConfigFile("config.yaml")
+
+	err = viper.ReadInConfig()
+	if err != nil {
+		log.Fatal("cannot read config.yaml config")
+	}
+
+	err = viper.Unmarshal(&yaml)
+	if err != nil {
+		log.Fatal("config.yaml cant be loaded: ", err)
+	}
+
+	var use USE
+
+	if yaml.BLOCKCHAIN == "MAINNET" {
+		use = USE{
+			BLOCKCHAIN:  "mainnet",
+			ALCHEMY_KEY: env.ALCHEMY_MAINNET,
+		}
+	} else {
+		use = USE{
+			BLOCKCHAIN:  "goerli",
+			ALCHEMY_KEY: env.ALCHEMY_GOERLI,
+		}
+	}
+
+	return Config{ENV: env, YAML: yaml, USE: &use}
+
+}
+EOM

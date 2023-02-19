@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+cat <<'EOM'
+# hasura init hasura_prod --endpoint ${HASURA_STAGING_ENDPOINT_PROD} --admin-secret ${HASURA_GRAPHQL_ADMIN_SECRET_PROD}
+.PHONY: jwt
+jwt: cmd-exists-docker
+	sleep 1
+	docker network create "${HASURA_NETWORK_NAME}"
+	sleep 1
+	openssl rand -hex 32 >> .env 2>&1 &
+
+.PHONY: console
+console: cmd-exists-hasura
+	hasura console --admin-secret ${HASURA_GRAPHQL_ADMIN_SECRET}
+
+.PHONY: migrate
+migrate: cmd-exists-hasura
+	hasura migrate apply --endpoint ${HASURA_STAGING_ENDPOINT} --admin-secret ${HASURA_GRAPHQL_ADMIN_SECRET}
+
+.PHONY: metadata
+metadata: cmd-exists-hasura
+	hasura metadata apply --endpoint ${HASURA_STAGING_ENDPOINT} --admin-secret ${HASURA_GRAPHQL_ADMIN_SECRET}
+	echo "npx hasura metadata reload and hasura migrate status too..."
+
+.PHONY: seed
+seed: cmd-exists-hasura
+	hasura seed apply --endpoint ${HASURA_STAGING_ENDPOINT} --admin-secret ${HASURA_GRAPHQL_ADMIN_SECRET}
+
+.PHONY: migratePROD
+migratePROD: cmd-exists-hasura
+	hasura migrate apply --endpoint ${HASURA_STAGING_ENDPOINT_PROD} --admin-secret ${HASURA_GRAPHQL_ADMIN_SECRET_PROD}
+
+.PHONY: metadataPROD
+metadataPROD: cmd-exists-hasura
+	hasura metadata apply --endpoint ${HASURA_STAGING_ENDPOINT_PROD} --admin-secret ${HASURA_GRAPHQL_ADMIN_SECRET_PROD}
+	echo "npx hasura metadata reload and hasura migrate status too..."
+
+.PHONY: seedPROD
+seedPROD: cmd-exists-hasura
+	hasura seed apply --endpoint ${HASURA_STAGING_ENDPOINT_PROD} --admin-secret ${HASURA_GRAPHQL_ADMIN_SECRET_PROD}
+
+.PHONY: delete
+delete: cmd-exists-docker
+	docker-compose down
+	sleep 1
+	docker volume rm ${HASURA_VOLUME_NAME}
+EOM

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 nerd=("Richard-Stallman" "John-Carmack" "Vitalik-Buterin" "Linus-Torvalds")
 random_nerd() {

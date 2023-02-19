@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+cat <<'EOM'
 ifneq (,$(wildcard ./.env))
     include .env
     export
@@ -44,3 +45,4 @@ trace: cmd-exists-forge
 
 remappings: cmd-exists-forge
 	forge remappings > remappings.txt
+EOM

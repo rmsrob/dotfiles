@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+cat <<'EOM'
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
+cmd-exists-%:
+	@hash $(*) > /dev/null 2>&1 || \
+		(echo "ERROR: '$(*)' must be installed and available on your PATH."; exit 1)
+
+.PHONY: run
+run: cmd-exists-go
+	go run cmd/main.go
+
+.PHONY: gotest
+gotest: cmd-exists-got
+	go test -v ./...
+EOM
