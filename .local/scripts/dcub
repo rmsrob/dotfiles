@@ -5,4 +5,8 @@ if ! which docker 2>&1 >/dev/null; then
     exit 1
 fi
 
-docker run -it --rm ubuntu
+if [[ -n "$1" ]]; then
+    docker run -it --network "$1" --rm ubuntu
+else
+    docker run -it --rm ubuntu
+fi

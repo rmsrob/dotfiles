@@ -9,7 +9,6 @@ forge init
 example_readme >README.md
 example_lc_agpl >LICENSE
 example_gitignore >.gitignore
-example_makefile_forge >Makefile
 
 perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" LICENSE
 perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" README.md
@@ -44,3 +43,4 @@ for lib in "${selected[@]}"; do
     forge install "$lib"
 done
 forge remappings >remappings.txt
+cp $SCRIPTS/example_makefile_forge Makefile

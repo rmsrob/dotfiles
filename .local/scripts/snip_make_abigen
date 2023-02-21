@@ -15,7 +15,7 @@ abigen: cmd-exists-abigen
 		else \
 			abi=$$abis; \
 			echo "Generating Go ABI file for $$abi..."; \
-			abigen --abi="$$abi" --pkg=$$(basename $$subdir) --out="$$(basename $$subdir)"; \
+			abigen --abi="$$abi" --pkg=$$(basename $$subdir) --out="$$subdir/$$(basename $$subdir).go"; \
 		fi; \
 	done
 EOM

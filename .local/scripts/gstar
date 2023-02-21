@@ -6,12 +6,14 @@ if ! havecmd jq; then
 fi
 
 if [ -z "$1" ]; then
-  echo "make sure to *source .env* to load *gh_token_* and *gh_user_*"
-  echo "you can add other github username"
+  echo -e "Usage: make sure to load *gh_token_* and *gh_user_*. \nYou can add other github username if you like!\n\n"
+  user_list=("$gh_user_" "$GITUSER")
+else
+  user_list=("$1" "$gh_user_" "$GITUSER")
 fi
 
-user_list=("$1" "$gh_user_")
 TPMF=$(mktemp -d -t foobar.XXXXX)
+touch "$TPMF/merged.json"
 for ghuser in "${user_list[@]}"; do
   query='query {
       user(login: \"'$ghuser'\") {
@@ -32,17 +34,13 @@ for ghuser in "${user_list[@]}"; do
     -H "Authorization: bearer $gh_token_" \
     -X POST -d "{ \"query\": \"$query\"}" https://api.github.com/graphql)
   echo "$response" | jq '.data.user' >"$TPMF"/starred_repos_"$ghuser".json
+  jq '.starredRepositories.nodes[]' "$TPMF/starred_repos_$ghuser.json" >>"$TPMF/merged.json"
 done
 
-touch "$TPMF/merged.json"
-jq '.starredRepositories.nodes[]' "$TPMF/starred_repos_$1.json" "$TPMF/starred_repos_$gh_user_.json" >"$TPMF/merged.json"
-
 echo "there are $(jq '.[]' "$TPMF/merged.json" | wc -l) repos starred"
-echo "Enter to pretty print all your starred repos"
-echo "Hit <l> to scroll with 'less'"
-echo "Type here your search term to filter the starred repos"
+echo "[ENTER] to print / [l] to scroll with less / [SEARCH TERM] to filter"
 
-read -p "search term: " user_search
+read -p "[OPTION]: " user_search
 
 if [[ -z "$user_search" ]]; then
   jq '.' "$TPMF/merged.json"
