@@ -4,13 +4,13 @@ env:
 
 window:
   decorations: buttonless
-  opacity: 0.89
+  opacity: 1
   startup_mode: Maximized
   dynamic_title: true
 
 scrolling:
-  history: 10000
-  multiplier: 3
+  history: 100000
+  multiplier: 5
 
 font:
   normal:

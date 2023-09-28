@@ -60,18 +60,16 @@ export GOPROXY=direct
 export CGO_ENABLED=0
 export HOMEBREW="/opt/homebrew/bin"
 export FOUDRYBIN="$HOME/.foundry/bin"
+# export NPM_NM="/opt/homebrew/lib/node_modules"
+export PNPM_HOME="$HOME/.pnpm"
 export BUN_INSTALL="$HOME/.bun"
 export RUSTUP="$HOME/.cargo/bin" # . "$HOME/.cargo/env"
 # export PYTHONDONTWRITEBYTECODE=2 # WTF var name
 export LC_COLLATE=C
 export LANG=en_US.UTF-8
-export TZ=Europe/Paris
-export LC_TME=fr_FR
 export LC_MESSAGES=C
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-export TZ=Europe/Paris
-export LC_TME=fr_FR
 export CFLAGS="-Wall -Wextra -Werror -O0 -g -fsanitize=address -fno-omit-frame-pointer -finstrument-functions"
 
 color_prompt=yes
@@ -191,7 +189,7 @@ pathprepend \
   "$HOME/.local/bin" \
   "$HOMEBREW" \
   "$NVM_DIR"* \
-  "$NODE_PATH" \
+  "$PNPM_HOME" \
   "$GHREPOS/cmd-"* \
   "$RUSTUP" \
   "$FOUDRYBIN" \
@@ -381,12 +379,13 @@ alias wget='wget -c'
 alias ping='ping -c 4'
 alias '?'=duck
 alias '??'=google
+alias '???'=gpt
 alias ls='ls -h --color=auto'
 _have lsd && alias ls='lsd'
 alias ll='ls -alF'
 alias la='ls -lA'
 alias l='ls -l'
-_have lsd && alias lt='lsd --tree'
+_have lsd && alias lt='lsd --tree -al'
 alias free='free -h'
 alias df='df -H'
 alias du='du -ch'
@@ -394,8 +393,6 @@ alias chmodx='chmod +x'
 alias diff='diff --color'
 alias g='git'
 alias gam='git add .; git commit -m '
-# alias gpom='git push origin master'
-# alias gpod='git push origin develop'
 alias temp='cd $(mktemp -d -t foobar.XXXXX)'
 alias clear='printf "\e[H\e[2J"'
 alias c='printf "\e[H\e[2J"'
@@ -415,6 +412,7 @@ _have tmux && alias ktmux='tmux kill-server'
 _have ytop && alias ytop='ytop -ps'
 _have cointop && alias coint='cointop'
 _have docker-compose && alias dc="docker-compose"
+_have podman-compose && alias pc="podman-compose"
 
 # ----------------------------- functions ----------------------------
 
@@ -508,6 +506,8 @@ _have brew && _source_if "/opt/homebrew/etc/profile.d/bash_completion.sh"
 _have forge && . <(forge completions bash)
 _have cast && . <(cast completions bash)
 _have anvil && . <(anvil completions bash)
+# pnpm completion
+[ -f ~/.config/tabtab/bash/__tabtab.bash ] && . ~/.config/tabtab/bash/__tabtab.bash || true
 
 # -------------------- personalized configuration --------------------
 

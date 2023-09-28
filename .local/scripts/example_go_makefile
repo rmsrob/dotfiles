@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+cat <<'EOM'
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
+cmd-exists-%:
+	@hash $(*) > /dev/null 2>&1 || \
+		(echo "ERROR: '$(*)' must be installed and available on your PATH."; exit 1)
+
+.PHONY: run
+run: cmd-exists-go
+	go run cmd/main.go
+
+.PHONY: gotest
+gotest: cmd-exists-go
+	go test -v ./...
+
+.PHONY: abigen
+abigen: cmd-exists-abigen
+	@echo "Generating Go ABI files for contracts..."
+	@for subdir in $$(find ./pkg/contract -type d); do \
+		abis=$$(find $$subdir -maxdepth 1 -name '*.abi'); \
+		if [ -z "$$abis" ]; then \
+			echo "Info: no .abi file found in $$subdir"; \
+		elif [ $$(echo "$$abis" | wc -l) -gt 1 ]; then \
+			echo "Error: multiple .abi files found in $$subdir"; \
+			echo "Each subdirectory under pkg/contract must contain exactly one .abi file."; \
+			exit 1; \
+		else \
+			abi=$$abis; \
+			echo "Generating Go ABI file for $$abi..."; \
+			abigen --abi="$$abi" --pkg=$$(basename $$subdir) --out="$$subdir/$$(basename $$subdir).go"; \
+		fi; \
+	done
+EOM

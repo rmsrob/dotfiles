@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+uuid=$(perl -e 'printf "%04x%04x-%04x-%04x-%04x-%04x%04x%04x\n", rand 0x10000, rand 0x10000, rand 0x10000, rand 0x10000, rand 0x10000, rand 0x10000, rand 0x10000, rand 0x10000;')
+echo "Perl generated UUID: $uuid"

@@ -8,6 +8,7 @@ cargo init
 example_readme >README.md
 example_lc_apache >LICENSE
 example_gitignore >.gitignore
+example_env >.env.example
 
 perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" LICENSE
 perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" README.md

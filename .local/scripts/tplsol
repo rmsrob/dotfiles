@@ -2,24 +2,42 @@
 
 REPOSITORY="${PWD##*/}"
 ROOTDIR=$(echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//')
+SOLCvers=$(solc --version | awk '/Version:/ {print $2}' | cut -d+ -f1)
 
 rm .DS_Store
-forge init
+forge init --force --no-git --no-commit .
 
 example_readme >README.md
 example_lc_agpl >LICENSE
+example_makefile_forge >Makefile
 example_gitignore >.gitignore
+example_env >.env.example
+example_foundry >foundry.toml
 
 perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" LICENSE
 perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" README.md
 perl -i -pe "s/%REPOSITORY/$REPOSITORY/g" README.md
+perl -i -pe "s/%solcVers/$SOLCvers/g" foundry.toml
+find . -type f -name "*.sol" -exec perl -i -pe 's/\/\/ SPDX-License-Identifier: UNLICENSED/\/\/ SPDX-License-Identifier: AGPL-3.0-only/g' {} +
+find . -type f -name "*.sol" -exec perl -i -pe "s/pragma solidity \^\\d+\\.\\d+\\.\\d+/pragma solidity ^$SOLCvers/g" {} +
 
 echo "# Auto detect text files and perform LF normalization
 * text=auto
 .gas-snapshot linguist-language=Julia
 *.sol linguist-language=Solidity" >.gitattributes
 
-git add . && git commit -m "init"
+declare -a dirs=("test" "script")
+for dir in "${dirs[@]}"; do
+    mkdir -p "$dir/forge"
+    mv -iv "$dir/Counter".*.sol "$dir/forge/"
+done
+
+# mkdir -p test/forge
+# mv -iv test/Counter.t.sol test/forge/Counter.t.sol
+# mkdir -p script/forge
+# mv -iv script/Counter.s.sol script/forge/Counter.s.sol
+
+git init
 
 libs=(transmissions11/solmate Sol-DAO/solbase OpenZeppelin/openzeppelin-contracts)
 selected=()
@@ -43,4 +61,5 @@ for lib in "${selected[@]}"; do
     forge install "$lib"
 done
 forge remappings >remappings.txt
-cp $SCRIPTS/example_makefile_forge Makefile
+make fmt
+git add . && git commit -m "Initial commit"

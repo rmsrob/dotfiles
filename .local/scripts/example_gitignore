@@ -16,6 +16,8 @@ cache/
 crytic-export/
 typechain/
 out/
+bin
+dist
 log
 cached
 node_modules
@@ -48,7 +50,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # IDE
-.vscode/**
+.vscode
 
 # Test binary, built with `go test -c`
 /target

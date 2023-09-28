@@ -9,6 +9,7 @@ echo "go mod init github.com/$ROOTDIR/$REPOSITORY"
 example_readme >README.md
 example_lc_apache >LICENSE
 example_gitignore >.gitignore
+example_env >.env.example
 
 perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" LICENSE
 perl -i -pe "s/%ROOTDIR/$ROOTDIR/g" README.md
@@ -17,6 +18,5 @@ perl -i -pe "s/%REPOSITORY/$REPOSITORY/g" README.md
 mkdir cmd && touch cmd/main.go
 example_go >cmd/main.go
 mkdir pkg
-touch .env.example && touch .env
 
-git init && git add .
+git init && git add . && git commit -m "Initial commit"

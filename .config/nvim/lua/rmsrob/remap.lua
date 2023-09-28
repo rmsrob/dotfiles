@@ -3,6 +3,13 @@
 -- example: while in normal mode, press <control>x then execute vim.cmd.Ex
 vim.keymap.set("n", "<C-x>", vim.cmd.Ex)
 
+-- add keystrock sadge FR layout "Option + l" (⌥ + l) to insert the pipe symbol
+-- local function insertPipeSymbol()
+--   local key = vim.api.nvim_replace_termcodes('|', true, false, true)
+--   vim.api.nvim_feedkeys(key, 'l', true)
+-- end
+-- vim.api.nvim_set_keymap('n', '<leader>l', '<cmd>lua insertPipeSymbol()<CR>', { noremap = true })
+
 -- move up/:down selceted block
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")

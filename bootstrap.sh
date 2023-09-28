@@ -3,6 +3,7 @@
 DOTFILES=/home/$USER/Repos/github.com/$USER/dotfiles
 chmod +x $DOTFILES/.local/scripts/*
 # chmod +x $HOME/.local/scripts_private/*
+# ln -sv $DOTFILES/.bash_private ~/.bash_private
 
 declare -a links=(
     ".bashrc $HOME/.bashrc"

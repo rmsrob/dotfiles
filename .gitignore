@@ -9,3 +9,4 @@ hosts
 shared/wip
 scripts_private
 shared/.vim/plugged
+.bash_private

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+mkdir config
+example_go_config >config/config.go
+echo "BLOCKCHAIN: MAINNET" >config.yaml
