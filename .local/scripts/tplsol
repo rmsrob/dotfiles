@@ -43,7 +43,7 @@ echo '[submodule "lib/forge-std"]
 	path = lib/forge-std
 	url = https://github.com/foundry-rs/forge-std.git' >.gitmodules
 
-libs=(transmissions11/solmate Sol-DAO/solbase OpenZeppelin/openzeppelin-contracts)
+libs=(transmissions11/solmate Sol-DAO/solbase Vectorized/solady OpenZeppelin/openzeppelin-contracts marktoda/forge-gas-snapshot GNSPS/solidity-bytes-utils)
 selected=()
 while true; do
     read -r -p "$(echo -e "\n\033[96m Do you want to install some libraries? [y/\033[1m\033[1;96mn\033[0m\033[96m]\033[0m: ")" response
@@ -68,3 +68,4 @@ done
 forge remappings >remappings.txt
 make fmt
 git add . && git commit -m "init"
+echo "need more libs? https://forum.openzeppelin.com/t/list-of-solidity-libraries-in-the-wild/2250"
