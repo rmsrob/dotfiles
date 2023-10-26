@@ -434,6 +434,12 @@ gpod() {
   fi
 }
 
+gsub() {
+  git submodule deinit --force .
+  git submodule update --init --recursive
+  echo "discarded local changes in submodule and updated them."
+}
+
 now() {
   return echo "$1" $(date "+%A, %B %e, %Y, %l:%M:%S%p")
 }
