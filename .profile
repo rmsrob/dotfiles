@@ -8,6 +8,10 @@
 # for ssh logins, install and configure the libpam-umask package.
 # umask 022
 
+# first run on MacOs
+# export BASH_SILENCE_DEPRECATION_WARNING=1
+#eval "$(/opt/homebrew/bin/brew shellenv)"
+
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then

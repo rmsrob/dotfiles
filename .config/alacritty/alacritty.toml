@@ -1,0 +1,90 @@
+[env]
+TERM = "xterm-256color"
+
+[mouse]
+hide_when_typing = true
+
+[font]
+size = 16
+
+[font.normal]
+family = "FantasqueSansM Nerd Font Mono"
+style = "Regular"
+
+[font.bold]
+family = "FantasqueSansM Nerd Font Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "FantasqueSansM Nerd Font Mono"
+style = "Bold Italic"
+
+[font.italic]
+family = "FantasqueSansM Nerd Font Mono"
+style = "Italic"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Control|Shift"
+
+[shell]
+program = "/opt/homebrew/bin/bash"
+args = ["-l"]
+
+[window]
+startup_mode = "Maximized"
+opacity = 0.5
+blur = true 
+decorations = "buttonless"
+dynamic_title = true
+
+[bell]
+animation = "EaseOutExpo"
+color = "#ffffff"
+duration = 0
+
+[cursor]
+blink_interval = 750
+vi_mode_style = "None"
+
+[cursor.style]
+blinking = "On"
+shape = "Block"
+
+[colors.cursor]
+cursor = "#f81ce6"
+text = "CellBackground"
+
+[colors.vi_mode_cursor]
+cursor = "#e9ff5e"
+text = "CellBackground"
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Plus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "ToggleFullscreen"
+key = "F11"
+mods = "None"

@@ -39,5 +39,5 @@ exec brew install gls ffmpeg youtube-dl binutils diffutils ed gawk gnu-indent la
 brew cleanup
 echo "Now don't forget:"
 echo "  Add /usr/local/bin/bash to /etc/shells"
-echo "  Run chsh -s /usr/local/bin/bash"
+echo "  Run chsh -s /opt/homebrew/bin/bash"
 echo "  Use #!/usr/bin/env bash as shebang line"

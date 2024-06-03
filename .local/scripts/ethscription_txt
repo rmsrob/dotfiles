@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <my text msg to inscribe>"
+    exit 1
+fi
+
+# https://ethscriber.xyz/
+# https://etherscan.io/tx/${data.hash}
+# https://ethscriptions.com/${account.address}
+# api="https://ethscriber.xyz//api/ethscriptions/exists/${hash}"
+
+input_string="$1"
+RPC_URL=https://eth.llamarpc.com
+
+datauri="646174613a2c"
+utf8_hex=$(printf "%s" "$input_string" | xxd -p)
+echo "full data: ${datauri}${utf8_hex}"
+call_data="0x${datauri}${utf8_hex}"
+
+hash=$(printf "%s" "data:,$input_string" | sha256sum | awk '{print $1}')
+
+WALLET=$(cast wallet address --private-key "$PRIVKEY")
+cast send $WALLET ${call_data} --value 0ether --rpc-url $RPC_URL -i
+echo "Sending the EthScription...."

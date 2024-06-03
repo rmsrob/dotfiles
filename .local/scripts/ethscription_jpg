@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <file_path>"
+    exit 1
+fi
+
+RPC_URL=https://eth.llamarpc.com
+
+jpg_path="$1"
+
+# check if the file is a jpg and if size is > 96KB
+file_type=$(file -b --mime-type "$jpg_path")
+file_size=$(stat -c%s "$jpg_path")
+
+[ "$file_type" != "image/jpeg" ] && error_exit "The file is not a JPEG image."
+[ $file_size -gt $((96 * 1024)) ] && error_exit "File size exceeds 96KB."
+
+jpg_base64=$(base64 -w 0 $jpg_path)
+base64_binary=$(echo $jpg_base64 | base64 -d)
+bin_hex=$(echo -n $base64_binary | xxd -p | tr -d '\n')
+echo "$bin_hex"
+
+WALLET=$(cast wallet address --private-key "$PRIVKEY")
+cast send $WALLET 0x${bin_hex} --value 0ether --rpc-url $RPC_URL -i
+echo "Sending the EthScription...."

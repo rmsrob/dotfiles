@@ -51,19 +51,19 @@ export HRULEWIDTH=73
 export EDITOR=vi
 export VISUAL=vi
 export EDITOR_PREFIX=vi
-export GOROOT="/usr/local/go"
-export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
-# GOPRIVATE="github.com/*,gitlab.com/$GITUSER/*"
-export GOPATH="$HOME/.local/share/go"
+export GOROOT="/opt/homebrew/Cellar/go/1.22.3/libexec"
 export GOBIN="$HOME/.local/bin"
-export GOPROXY=direct
+export GOPATH="$HOME/.local/share/go"
 export CGO_ENABLED=0
+export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
+export GOPROXY=direct
 export HOMEBREW="/opt/homebrew/bin"
 export FOUDRYBIN="$HOME/.foundry/bin"
 # export NPM_NM="/opt/homebrew/lib/node_modules"
 export PNPM_HOME="$HOME/.pnpm"
 export BUN_INSTALL="$HOME/.bun"
-export RUSTUP="$HOME/.cargo/bin" # . "$HOME/.cargo/env"
+export RUSTUP="$HOME/.cargo/bin"
+export RUSTUPENV="$HOME/.cargo/env"
 # export PYTHONDONTWRITEBYTECODE=2 # WTF var name
 export LC_COLLATE=C
 export LANG=en_US.UTF-8
@@ -94,6 +94,8 @@ export normalbg=$'\033[49m'
 # -------------------------------- gpg -------------------------------
 
 #export GPG_TTY=$(tty)
+# GPG_TTY=$(tty)
+# export GPG_TTY
 
 # ------------------------------- pager ------------------------------
 
@@ -192,6 +194,7 @@ pathprepend \
   "$PNPM_HOME" \
   "$GHREPOS/cmd-"* \
   "$RUSTUP" \
+  "$RUSTUPENV" \
   "$FOUDRYBIN" \
   "$NVIM_DIR/bin" \
   "$SCRIPTS"
@@ -395,9 +398,8 @@ alias g='git'
 alias gam='git add .; git commit -m '
 alias temp='cd $(mktemp -d -t foobar.XXXXX)'
 alias clear='printf "\e[H\e[2J"'
-alias c='printf "\e[H\e[2J"'
+alias ccc=clear
 alias cdd=cd
-alias cc=c
 alias view='vi -R'
 alias oia='oai'
 
