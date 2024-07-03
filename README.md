@@ -9,10 +9,20 @@
 > **Note**
 > Copie the dotfiles repo inside `/home/$USER/Repos/github.com/<gh-user>/dotfiles` work best if your `$USER` is the same a your github username.
 
-## Load all dots:
+## Load
 
 ```bash
 cd /home/$USER/Repos/github.com/$USER/dotfiles
-chmod +x bootstrap.sh
-bootstrap.sh
+chmod +x $DOTFILES/.local/scripts/*
+
+ln -nsvf $DOTFILES/.profile $HOME/.profile
+ln -nsvf $DOTFILES/.inputrc $HOME/.inputrc
+ln -nsvf $DOTFILES/.dircolors $HOME/.dircolors
+ln -nsvf $DOTFILES/.tmux.conf $HOME/.tmux.conf
+ln -nsvf $DOTFILES/.vim/vim.vim $HOME/.vimrc
+ln -nsvf $DOTFILES/.vim $HOME
+ln -nsvf $DOTFILES/.config/alacritty $HOME/.config
+ln -nsvf $DOTFILES/.config/lynx $HOME/.config
+ln -nsvf $DOTFILES/.config/nvim $HOME/.config
+source $HOME/.bashrc
 ```
