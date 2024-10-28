@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+echo "[![Discord](https://dcbadge.limes.pink/api/server/fjordfoundry?style=flat)](https://discord.gg/fjordfoundry)"

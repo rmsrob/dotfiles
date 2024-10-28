@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+echo "![WIP](https://img.shields.io/badge/status-wip-red.svg)"

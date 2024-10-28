@@ -34,7 +34,7 @@ args = ["-l"]
 
 [window]
 startup_mode = "Maximized"
-opacity = 0.81
+opacity = 1
 blur = false 
 decorations = "buttonless"
 dynamic_title = true

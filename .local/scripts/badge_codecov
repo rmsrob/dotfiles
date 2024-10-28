@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+ROOTDIR=$(echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//')
+REPOSITORY="${PWD##*/}"
+
+
+echo "[![Coverage](https://codecov.io/gh/$ROOTDIR/$REPOSITORY/graph/badge.svg?token=XXXX)](https://codecov.io/gh/$ROOTDIR/$REPOSITORY)"

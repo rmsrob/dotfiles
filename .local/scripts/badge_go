@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+ROOTDIR=$(echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//')
+REPOSITORY="${PWD##*/}"
+
+echo "[![Latest release](https://img.shields.io/github/v/release/$ROOTDIR/$REPOSITORY)](https://github.com/$ROOTDIR/$REPOSITORY/releases/latest)"
+echo "[![GoDoc](https://godoc.org/github.com/$ROOTDIR/$REPOSITORY?status.svg)](https://godoc.org/github.com/$ROOTDIR/$REPOSITORY)"
+echo "[![Go Reference](https://pkg.go.dev/badge/github.com/$ROOTDIR/$REPOSITORY.svg)](https://pkg.go.dev/github.com/$ROOTDIR/$REPOSITORY)"
+echo "[![Go Report Card](https://goreportcard.com/badge/github.com/$ROOTDIR/$REPOSITORY)](https://goreportcard.com/report/github.com/$ROOTDIR/$REPOSITORY)"
+echo "[![Coverage Status](https://coveralls.io/repos/github/$ROOTDIR/$REPOSITORY/badge.svg?branch=master)](https://coveralls.io/github/$ROOTDIR/$REPOSITORY?branch=master)"
+# echo "[![Coverage](https://gocover.io/_badge/github.com/$ROOTDIR/$REPOSITORY)](https://gocover.io/github.com/$ROOTDIR/$REPOSITORY)"
+echo

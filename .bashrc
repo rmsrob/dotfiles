@@ -47,7 +47,7 @@ export VIDEOS="$HOME/Videos"
 export VMS="$HOME/Vms"
 export NVIM_DIR="$HOME/.nvim" # testing nightly
 export TERM=xterm-256color
-export HRULEWIDTH=73
+export HRULEWIDTH=84
 export EDITOR=vi
 export VISUAL=vi
 export EDITOR_PREFIX=vi
@@ -58,12 +58,15 @@ export CGO_ENABLED=0
 export GOPRIVATE="github.com/$GITUSER/*,gitlab.com/$GITUSER/*"
 export GOPROXY=direct
 export HOMEBREW="/opt/homebrew/bin"
+export HB_libpq="/opt/homebrew/opt/libpq/bin"
 export FOUDRYBIN="$HOME/.foundry/bin"
 # export NPM_NM="/opt/homebrew/lib/node_modules"
 export PNPM_HOME="$HOME/.pnpm"
 export BUN_INSTALL="$HOME/.bun"
 export RUSTUP="$HOME/.cargo/bin"
 export RUSTUPENV="$HOME/.cargo/env"
+export CYFRIN="$HOME/.cyfrin/bin"
+export RINDEXER="$HOME/.rindexer/bin"
 # export PYTHONDONTWRITEBYTECODE=2 # WTF var name
 export LC_COLLATE=C
 export LANG=en_US.UTF-8
@@ -197,6 +200,9 @@ pathprepend \
   "$RUSTUPENV" \
   "$FOUDRYBIN" \
   "$NVIM_DIR/bin" \
+  "$CYFRIN" \
+  "$RINDEXER" \
+  "$HB_libpq" \
   "$SCRIPTS"
 
 pathappend \
@@ -402,6 +408,8 @@ alias cll=clear
 alias cdd=cd
 alias view='vi -R'
 alias oia='oai'
+alias rindexerup='bash /Users/rmsrob/.rindexer/bin/rindexerup $@'
+alias rindexerdown='bash /Users/rmsrob/.rindexer/bin/rindexerdown'
 
 _have lazygit && alias lzg='lazygit'
 _have lazydocker && alias lzd='lazydocker'

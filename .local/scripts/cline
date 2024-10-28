@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+
+_filter(){
+  [[ -n "$1" ]] && return 1
+  while IFS= read -ra args; do
+    "${FUNCNAME[1]}" "${args[@]}"
+  done
+}
+
+hsep() {
+  _filter "$@" && return $?
+  local str="$1"                  # The title text
+  local char="${2:--}"            # The character for the rule (default '-')
+  local -i len=${#str}            # Length of the title
+  local -i total_len=$HRULEWIDTH  # Total line width (should be set as 80)
+  local -i side=$(( (total_len - len - 4) / 2 ))
+  local -i left=$side
+  local -i right=$side
+
+  if (( 2 * side + len + 4 < total_len )); then
+    ((right += 1))
+  fi
+  echo "/// $(echon "$char" "$left") $str $(echon "$char" "$right")"
+}
+
+hsep "$@"

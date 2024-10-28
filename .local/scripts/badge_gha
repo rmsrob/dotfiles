@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+ROOTDIR=$(echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//')
+REPOSITORY="${PWD##*/}"
+
+echo "[![Github Actions](https://github.com/$ROOTDIR/$REPOSITORY/actions/workflows/ci.yml/badge.svg)](https://github.com/$ROOTDIR/$REPOSITORY/actions)"

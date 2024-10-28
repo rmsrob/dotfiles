@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+ROOTDIR=$(echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//')
+REPOSITORY="${PWD##*/}"
+
+echo "[![Gitpod](https://img.shields.io/badge/Open%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#https:///github.com/$ROOTDIR/$REPOSITORY)"
+  

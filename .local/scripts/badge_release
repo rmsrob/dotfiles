@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+ROOTDIR=$(echo "${PWD%/*}" | perl -pe 's/^.*\/(\s)*//')
+REPOSITORY="${PWD##*/}"
+
+echo "[![Latest release](https://img.shields.io/github/v/release/$ROOTDIR/$REPOSITORY)](https://github.com/$ROOTDIR/$REPOSITORY/releases/latest)"

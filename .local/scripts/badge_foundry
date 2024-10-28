@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+echo "[![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://getfoundry.sh)"
